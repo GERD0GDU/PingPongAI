@@ -48,7 +48,7 @@ Bu fark, AI ile klasik yazılım arasındaki en kritik ayrımdır.
 
 AI literatüründe öğrenme genelde üç ana başlıkta incelenir.
 
-### Supervised Learning
+### 1. Supervised Learning
 
 - Sisteme hem girdi hem de doğru çıktı verilir
 - "Bu görüntü kedi, bu köpek" gibi
@@ -64,7 +64,7 @@ Dezavantajı:
 - Etiketli veri gerektirir
 - Gerçek hayatta her zaman doğru cevap yoktur
 
-### Unsupervised Learning
+### 2. Unsupervised Learning
 
 - Sisteme sadece veri verilir
 - Doğru cevap yoktur
@@ -77,7 +77,7 @@ Dezavantajı:
 
 Bu yaklaşım daha keşif odaklıdır.
 
-### Reinforcement Learning
+### 3. Reinforcement Learning
 
 Bu projede bizi en çok ilgilendiren öğrenme türü budur.
 

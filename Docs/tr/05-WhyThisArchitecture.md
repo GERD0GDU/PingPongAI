@@ -129,7 +129,7 @@ Ama tam da bu yüzden:
 - şeffaftır
 - güvenilirdir
 
-PingPongAI'nin mimarisi, AI'yi yüceltmek için değil **anlaşılır kılmak için** vardır.
+PingPongAI mimarisi, yapay zekayı yüceltmek için değil **anlaşılır kılmak için** vardır.
 
 ## Ayrıca Bakınız
 

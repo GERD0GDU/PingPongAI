@@ -1,12 +1,12 @@
-[![GitHub lisansı](https://img.shields.io/github/license/GERD0GDU/PingPongAI.svg)](https://github.com/GERD0GDU/PingPongAI/blob/main/LICENSE)
-
-[![GitHub izleyiciler](https://img.shields.io/github/watchers/GERD0GDU/PingPongAI.svg?style=social&label=Watch)](https://GitHub.com/GERD0GDU/PingPongAI/watchers/)
-[![GitHub çatallar](https://img.shields.io/github/forks/GERD0GDU/PingPongAI.svg?style=social&label=Fork)](https://GitHub.com/GERD0GDU/PingPongAI/network/)
-[![GitHub yıldızlar](https://img.shields.io/github/stars/GERD0GDU/PingPongAI.svg?style=social&label=Star)](https://GitHub.com/GERD0GDU/PingPongAI/stargazers/)
-
 # PingPongAI
 
-Yapay zekâ kontrollü masa tenisi oyunu – C#/.NET Core kullanarak sıfırdan kendi sinir ağınızı eğitin.
+[![license](https://img.shields.io/github/license/GERD0GDU/PingPongAI.svg)](https://github.com/GERD0GDU/PingPongAI/blob/main/LICENSE)
+
+[![watchers](https://img.shields.io/github/watchers/GERD0GDU/PingPongAI.svg?style=social&label=Watch)](https://GitHub.com/GERD0GDU/PingPongAI/watchers/)
+[![forks](https://img.shields.io/github/forks/GERD0GDU/PingPongAI.svg?style=social&label=Fork)](https://GitHub.com/GERD0GDU/PingPongAI/network/)
+[![stars](https://img.shields.io/github/stars/GERD0GDU/PingPongAI.svg?style=social&label=Star)](https://GitHub.com/GERD0GDU/PingPongAI/stargazers/)
+
+Yapay zekâ kontrollü masa tenisi oyunu - C#/.NET Core kullanarak sıfırdan kendi sinir ağınızı eğitin.
 
 ## 🌐 Çok Dilli Destek
 
@@ -120,6 +120,8 @@ Bu yüzden ortaya çıkan içerik:
 - bilinçli olarak sade ve açıklayıcı tutulmuştur
 
 Bu şeffaflık, bu projenin temel prensiplerinden biridir.
+
+Sonraki dokümanda, [**AI nedir**](./Docs/tr/00-WhatIsAI.md) sorusuna yanıt arayacağız.
 
 ## Ayrıca Bakınız
 

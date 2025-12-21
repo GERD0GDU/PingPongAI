@@ -170,8 +170,6 @@ Bu yaklaşım:
 
 gibi sistemlerin temelidir.
 
----
-
 ## Bilinç - Sezgi - Sihir
 
 Bu noktada bir karışıklık olur.

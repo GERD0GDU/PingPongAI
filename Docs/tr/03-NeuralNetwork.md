@@ -42,6 +42,8 @@ Bir neural network:
 
 > Zeka tek bir nöronda değil, nöronların birlikte çalışmasındadır.
 
+![Neural Network](./assets/neural-network.png)
+
 ## Katman Kavramı (Layers)
 
 Bir neural network genellikle üç temel katmandan oluşur.

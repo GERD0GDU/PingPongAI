@@ -36,6 +36,8 @@ Hepsi bu.
 🧠 Ne sezgi\
 ✨ Ne de sihir
 
+![Single Neuron](./assets/single-neuron.png)
+
 ## Girdiler (Inputs)
 
 Girdiler, dış dünyadan gelen sayılardır.
@@ -139,6 +141,9 @@ Bu yüzden:
 
 - nöronlar katmanlar halinde birleştirilir
 - neural network kavramı ortaya çıkar
+
+> Sinir ağları aynı başlangıç değerleriyle başlatılmaz.\
+Çünkü tüm nöronların aynı davranması, ağın farklı yollar öğrenmesini engeller.
 
 ## Ping-Pong Projesi ile Bağlantı
 
