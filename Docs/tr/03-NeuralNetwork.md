@@ -77,7 +77,7 @@ Gizli katmanlar:
 
 Burada:
 
-- ⚡ sezgi oluşur
+- ⚡ sezgisel davranışlar sergiler
 - 🔥 ama bilinç oluşmaz
 
 Bu katmanlar:

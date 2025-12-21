@@ -1,0 +1,27 @@
+﻿<Window x:Class="PingPongAI.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PingPongAI.App"
+        mc:Ignorable="d"
+        Title="PingPongAI"
+        Width="800"
+        Height="450"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="Black"
+        Loaded="Window_Loaded">
+
+    <Canvas x:Name="GameCanvas"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="Black">
+
+        <!-- Ball -->
+        <Ellipse x:Name="Ball"
+                 Width="16"
+                 Height="16"
+                 Fill="White"/>
+    </Canvas>
+</Window>

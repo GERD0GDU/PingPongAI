@@ -106,7 +106,7 @@ Bu soruların sorulabildiği bir sistem:
 Bu mimari:
 
 - 🔥 insan gibi düşünmez
-- 🧠 sezgi üretmez
+- 🧠 sezgi üretmez (ancak sezgisel davranışlar sergiler)
 - ✨ sihir yapmaz
 
 Yaptığı tek şey şudur:
