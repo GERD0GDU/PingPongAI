@@ -7,21 +7,41 @@
         mc:Ignorable="d"
         Title="PingPongAI"
         Width="800"
-        Height="450"
+        Height="474"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Background="Black"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded"
+        KeyDown="Window_KeyDown"
+        KeyUp="Window_KeyUp">
 
-    <Canvas x:Name="GameCanvas"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Background="Black">
+    <Viewbox Stretch="Uniform">
+        <Canvas x:Name="GameCanvas"
+                Width="800"
+                Height="450"
+                Background="Black">
 
-        <!-- Ball -->
-        <Ellipse x:Name="Ball"
-                 Width="16"
-                 Height="16"
-                 Fill="White"/>
-    </Canvas>
+            <!-- Ball -->
+            <Ellipse x:Name="Ball"
+                     Width="16"
+                     Height="16"
+                     Fill="White"/>
+
+                <!-- Player 1 Paddle -->
+                <Rectangle x:Name="Paddle1"
+                   Width="10"
+                   Height="80"
+                   Fill="White"
+                   Canvas.Left="20"
+                   Canvas.Top="185"/>
+
+                <!-- Player 2 Paddle -->
+                <Rectangle x:Name="Paddle2"
+                   Width="10"
+                   Height="80"
+                   Fill="White"
+                   Canvas.Left="770"
+                   Canvas.Top="185"/>
+        </Canvas>
+    </Viewbox>
 </Window>
