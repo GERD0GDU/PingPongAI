@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -38,7 +39,8 @@ namespace PingPongAI.App
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // first position for paddles
-            _paddle1Y = _paddle2Y = (GameCanvas.Height - Paddle1.Height) / 2;
+            _paddle1Y = (GameCanvas.Height - Paddle1.Height) / 2;
+            _paddle2Y = (GameCanvas.Height - Paddle2.Height) / 2;
             // select a random player.
             ResetBall(_rnd.Next(2) == 0 ? true : false);
 
@@ -100,9 +102,9 @@ namespace PingPongAI.App
             _lastUpdateTime = now;
 
             UpdatePaddles(deltaTime);
-            RenderPaddles();
-
             UpdateBall(deltaTime);
+
+            RenderPaddles();
             RenderBall();
         }
 
