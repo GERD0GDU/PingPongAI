@@ -38,7 +38,7 @@ namespace PingPongAI.App
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // first position for paddles
-            _paddle1Y = _paddle2Y = (GameCanvas.ActualHeight - Paddle1.ActualHeight) / 2;
+            _paddle1Y = _paddle2Y = (GameCanvas.Height - Paddle1.Height) / 2;
             // select a random player.
             ResetBall(_rnd.Next(2) == 0 ? true : false);
 
@@ -82,15 +82,15 @@ namespace PingPongAI.App
                 : Canvas.GetLeft(Paddle2) - Ball.Width - 1;
 
             _ballY = fromLeft
-                ? Canvas.GetTop(Paddle1) + (Paddle1.ActualHeight - Ball.ActualHeight) / 2
-                : Canvas.GetTop(Paddle2) + (Paddle2.ActualHeight - Ball.ActualHeight) / 2;
+                ? Canvas.GetTop(Paddle1) + (Paddle1.Height - Ball.Height) / 2
+                : Canvas.GetTop(Paddle2) + (Paddle2.Height - Ball.Height) / 2;
 
             // Yeni rastgele yön
             int directionX = fromLeft ? 1 : -1;
             int directionY = _rnd.Next(0, 2) == 0 ? -1 : 1;
 
-            _velocityX = directionX * GameCanvas.ActualWidth * SPEED_FACTOR;
-            _velocityY = directionY * GameCanvas.ActualHeight * SPEED_FACTOR;
+            _velocityX = directionX * GameCanvas.Width * SPEED_FACTOR;
+            _velocityY = directionY * GameCanvas.Height * SPEED_FACTOR;
         }
 
         private void GameLoop(object? sender, EventArgs e)
@@ -99,11 +99,11 @@ namespace PingPongAI.App
             var deltaTime = (now - _lastUpdateTime).TotalSeconds;
             _lastUpdateTime = now;
 
-            UpdateBall(deltaTime);
-            RenderBall();
-
             UpdatePaddles(deltaTime);
             RenderPaddles();
+
+            UpdateBall(deltaTime);
+            RenderBall();
         }
 
         private void UpdateBall(double deltaTime)
@@ -111,8 +111,8 @@ namespace PingPongAI.App
             _ballX += _velocityX * deltaTime;
             _ballY += _velocityY * deltaTime;
 
-            double maxX = GameCanvas.ActualWidth - Ball.Width;
-            double maxY = GameCanvas.ActualHeight - Ball.Height;
+            double maxX = GameCanvas.Width - Ball.Width;
+            double maxY = GameCanvas.Height - Ball.Height;
 
             // If the ball collides with paddle1
             if (_ballX <= Canvas.GetLeft(Paddle1) + Paddle1.Width &&
@@ -164,8 +164,8 @@ namespace PingPongAI.App
             _paddle2Y += _paddle2Direction * PADDLE_SPEED * deltaTime;
 
             // To avoid exceeding the canvas boundaries.
-            _paddle1Y = Math.Max(0, Math.Min(GameCanvas.ActualHeight - Paddle1.Height, _paddle1Y));
-            _paddle2Y = Math.Max(0, Math.Min(GameCanvas.ActualHeight - Paddle2.Height, _paddle2Y));
+            _paddle1Y = Math.Max(0, Math.Min(GameCanvas.Height - Paddle1.Height, _paddle1Y));
+            _paddle2Y = Math.Max(0, Math.Min(GameCanvas.Height - Paddle2.Height, _paddle2Y));
         }
 
         private void RenderBall()
