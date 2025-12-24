@@ -231,3 +231,4 @@ Bir sonraki dokümanda, [**Demis Hassabis'in yaklaşımı**](./05-WhyThisArchite
 - [Mini neural network, hidden layer, ileri beslemeli ağ](./03-NeuralNetwork.md)
 - *Ödül ve ceza, self-play, temel RL mantığı*
 - &gt; [Hassabis yaklaşımı, self-play, modüler mimari](./05-WhyThisArchitecture.md)
+- [PingPongAI.App Gerekçeleri](./06-PingPongAI.App.md)

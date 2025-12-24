@@ -12,6 +12,8 @@ Yapay zekâ kontrollü masa tenisi oyunu - C#/.NET Core kullanarak sıfırdan ke
 
 [English](./Docs/en/ReadMe.md)
 
+> *Diğer dillere çeviri işlemi AI tarafından yapılmıştır.*
+
 ## Neden Bu Proje Var?
 
 Bu proje bir ürün geliştirmek için değil, bir kavramı anlamak için oluşturuldu.
@@ -131,3 +133,4 @@ Sonraki dokümanda, [**AI nedir**](./Docs/tr/00-WhatIsAI.md) sorusuna yanıt ara
 - [Mini neural network, hidden layer, ileri beslemeli ağ](./Docs/tr/03-NeuralNetwork.md)
 - [Ödül ve ceza, self-play, temel RL mantığı](./Docs/tr/04-ReinforcementLearning.md)
 - [Hassabis yaklaşımı, self-play, modüler mimari](./Docs/tr/05-WhyThisArchitecture.md)
+- [PingPongAI.App Gerekçeleri](./Docs/tr/06-PingPongAI.App.md)

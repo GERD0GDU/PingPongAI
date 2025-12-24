@@ -201,3 +201,4 @@ Bir sonraki dokümanda, neural network öğrenimi için [**ödül ve ceza**](./0
 - *Mini neural network, hidden layer, ileri beslemeli ağ*
 - &gt; [Ödül ve ceza, self-play, temel RL mantığı](./04-ReinforcementLearning.md)
 - [Hassabis yaklaşımı, self-play, modüler mimari](./05-WhyThisArchitecture.md)
+- [PingPongAI.App Gerekçeleri](./06-PingPongAI.App.md)

@@ -46,3 +46,4 @@ Sonraki dokümanda, AI için
 - [Mini neural network, hidden layer, ileri beslemeli ağ](./03-NeuralNetwork.md)
 - [Ödül ve ceza, self-play, temel RL mantığı](./04-ReinforcementLearning.md)
 - [Hassabis yaklaşımı, self-play, modüler mimari](./05-WhyThisArchitecture.md)
+- [PingPongAI.App Gerekçeleri](./06-PingPongAI.App.md)

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="PingPongAI"
         Width="800"
-        Height="474"
+        Height="512"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Background="Black"
@@ -15,33 +15,58 @@
         KeyDown="Window_KeyDown"
         KeyUp="Window_KeyUp">
 
-    <Viewbox Stretch="Uniform">
-        <Canvas x:Name="GameCanvas"
-                Width="800"
-                Height="450"
-                Background="Black">
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-            <!-- Ball -->
-            <Ellipse x:Name="Ball"
-                     Width="16"
-                     Height="16"
-                     Fill="White"/>
+        <Grid Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <TextBlock VerticalAlignment="Center" FontWeight="Bold" FontSize="16" Foreground="Gray">Player 1</TextBlock>
+            <TextBlock Grid.Column="1" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Bold" FontSize="16" Foreground="Gray">Player 2</TextBlock>
 
-                <!-- Player 1 Paddle -->
-            <Rectangle x:Name="Paddle1"
-                   Width="10"
-                   Height="80"
-                   Fill="White"
-                   Canvas.Left="20"
-                   Canvas.Top="185"/>
+            <TextBlock x:Name="txtPlayer1Score" Grid.Row="1" VerticalAlignment="Center" FontWeight="Bold" FontFamily="Consolas" FontSize="22" Foreground="Green">0</TextBlock>
+            <TextBlock x:Name="txtPlayer2Score" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" TextAlignment="Right" FontFamily="Consolas" FontWeight="Bold" FontSize="22" Foreground="Green">0</TextBlock>
+        </Grid>
 
-            <!-- Player 2 Paddle -->
-            <Rectangle x:Name="Paddle2"
-                   Width="10"
-                   Height="80"
-                   Fill="White"
-                   Canvas.Left="770"
-                   Canvas.Top="185"/>
-        </Canvas>
-    </Viewbox>
+        <Viewbox Grid.Row="1" Stretch="Uniform">
+            <Border  BorderThickness="2" BorderBrush="Gray">
+                <Canvas x:Name="GameCanvas"
+                        Width="800"
+                        Height="450"
+                        Background="Black">
+
+                    <!-- Ball -->
+                    <Ellipse x:Name="Ball"
+                         Width="16"
+                         Height="16"
+                         Fill="White"/>
+
+                    <!-- Player 1 Paddle -->
+                    <Rectangle x:Name="Paddle1"
+                       Width="10"
+                       Height="80"
+                       Fill="White"
+                       Canvas.Left="20"
+                       Canvas.Top="185"/>
+
+                    <!-- Player 2 Paddle -->
+                    <Rectangle x:Name="Paddle2"
+                       Width="10"
+                       Height="80"
+                       Fill="White"
+                       Canvas.Left="770"
+                       Canvas.Top="185"/>
+                </Canvas>
+            </Border>
+        </Viewbox>
+    </Grid>
 </Window>

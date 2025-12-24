@@ -131,6 +131,8 @@ Ama tam da bu yüzden:
 
 PingPongAI mimarisi, yapay zekayı yüceltmek için değil **anlaşılır kılmak için** vardır.
 
+Bir sonraki dokümanda, WPF masaüstü olarak geliştirilen [**PingPongAI.App**](./06-PingPongAI.App.md) uygulamasının gerekçeleri ele alınacak.
+
 ## Ayrıca Bakınız
 
 - [Ana Sayfa](../../README.md)
@@ -140,3 +142,4 @@ PingPongAI mimarisi, yapay zekayı yüceltmek için değil **anlaşılır kılma
 - [Mini neural network, hidden layer, ileri beslemeli ağ](./03-NeuralNetwork.md)
 - [Ödül ve ceza, self-play, temel RL mantığı](./04-ReinforcementLearning.md)
 - *Hassabis yaklaşımı, self-play, modüler mimari*
+- &gt; [PingPongAI.App Gerekçeleri](./06-PingPongAI.App.md)

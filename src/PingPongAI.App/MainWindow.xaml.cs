@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using PingPongAI.Core;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -31,6 +32,9 @@ namespace PingPongAI.App
         private double _paddle1Y = 0;
         private double _paddle2Y = 0;
 
+        private int _player1Score = 0;
+        private int _player2Score = 0;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -38,15 +42,11 @@ namespace PingPongAI.App
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // first position for paddles
-            _paddle1Y = (GameCanvas.Height - Paddle1.Height) / 2;
-            _paddle2Y = (GameCanvas.Height - Paddle2.Height) / 2;
-            // select a random player.
-            ResetBall(_rnd.Next(2) == 0 ? true : false);
+            ResetGame();
 
             _gameTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(16) // ~60 FPS
+                Interval = TimeSpan.FromMilliseconds(1000 / 60.0) // ~60 FPS
             };
 
             _gameTimer.Tick += GameLoop;
@@ -77,6 +77,19 @@ namespace PingPongAI.App
                 _paddle2Direction = 0;
         }
 
+        private void ResetGame()
+        {
+            _player1Score = 0;
+            _player2Score = 0;
+
+            // first position for paddles
+            _paddle1Y = (GameCanvas.Height - Paddle1.Height) / 2;
+            _paddle2Y = (GameCanvas.Height - Paddle2.Height) / 2;
+
+            // select a random player.
+            ResetBall(_rnd.Next(2) == 0 ? true : false);
+        }
+
         private void ResetBall(bool fromLeft)
         {
             _ballX = fromLeft
@@ -103,6 +116,7 @@ namespace PingPongAI.App
 
             UpdatePaddles(deltaTime);
             UpdateBall(deltaTime);
+            UpdateScores();
 
             RenderPaddles();
             RenderBall();
@@ -110,30 +124,80 @@ namespace PingPongAI.App
 
         private void UpdateBall(double deltaTime)
         {
-            _ballX += _velocityX * deltaTime;
-            _ballY += _velocityY * deltaTime;
+            double radius = Ball.Width / 2;
 
             double maxX = GameCanvas.Width - Ball.Width;
             double maxY = GameCanvas.Height - Ball.Height;
 
-            // If the ball collides with paddle1
-            if (_ballX <= Canvas.GetLeft(Paddle1) + Paddle1.Width &&
-                _ballX >= Canvas.GetLeft(Paddle1) &&
-                _ballY + Ball.Height >= _paddle1Y &&
-                _ballY <= _paddle1Y + Paddle1.Height)
+            Point prevCenter = new(
+                _ballX + radius,
+                _ballY + radius
+            );
+
+            _ballX += _velocityX * deltaTime;
+            _ballY += _velocityY * deltaTime;
+
+            Point nextCenter = new(
+                _ballX +  radius,
+                _ballY +  radius
+            );
+
+            Ray ray = new()
             {
-                _ballX = Canvas.GetLeft(Paddle1) + Paddle1.Width;
-                _velocityX *= -1;
+                Origin = prevCenter,
+                Direction = nextCenter - prevCenter
+            };
+
+            if (ray.Direction.LengthSquared < 0.000001)
+                return;
+
+            Rect paddle1Rect = new(
+                Canvas.GetLeft(Paddle1) + Paddle1.Width - radius,
+                _paddle1Y - radius,
+                radius * 2,
+                Paddle1.Height + radius * 2
+            );
+
+            Rect paddle2Rect = new(
+                Canvas.GetLeft(Paddle2) - radius,
+                _paddle2Y - radius,
+                radius * 2,
+                Paddle2.Height + radius * 2
+            );
+
+            HitInfo hit1 = Utils.RayVsRect(ray, paddle1Rect);
+            HitInfo hit2 = Utils.RayVsRect(ray, paddle2Rect);
+            HitInfo hit = default;
+            bool hasHit = false;
+
+            if (hit1.Hit && hit2.Hit)
+            {
+                hit = hit1.Time < hit2.Time ? hit1 : hit2;
+                hasHit = true;
+            }
+            else if (hit1.Hit)
+            {
+                hit = hit1;
+                hasHit = true;
+            }
+            else if (hit2.Hit)
+            {
+                hit = hit2;
+                hasHit = true;
             }
 
-            // If the ball collides with paddle2
-            else if (_ballX + Ball.Width >= Canvas.GetLeft(Paddle2) &&
-                     _ballX + Ball.Width <= Canvas.GetLeft(Paddle2) + Paddle2.Width &&
-                     _ballY + Ball.Height >= _paddle2Y &&
-                     _ballY <= _paddle2Y + Paddle2.Height)
+            if (hasHit)
             {
-                _ballX = Canvas.GetLeft(Paddle2) - Ball.Width;
-                _velocityX *= -1;
+                Point contact = prevCenter + ray.Direction * hit.Time;
+                contact += hit.Normal * 0.001;
+
+                _ballX = contact.X - radius;
+                _ballY = contact.Y - radius;
+
+                if (hit.Normal.X != 0)
+                    _velocityX *= -1;
+                if (hit.Normal.Y != 0)
+                    _velocityY *= -1;
             }
 
             // Is Top hitting the canvas limits?
@@ -152,13 +216,14 @@ namespace PingPongAI.App
             if (_ballX < 0) // It surpassed Paddle1.
             {
                 ResetBall(fromLeft: false);
+                _player2Score++;
             }
             else if (_ballX > maxX) // It surpassed Paddle2.
             {
                 ResetBall(fromLeft: true);
+                _player1Score++;
             }
         }
-
 
         private void UpdatePaddles(double deltaTime)
         {
@@ -168,6 +233,12 @@ namespace PingPongAI.App
             // To avoid exceeding the canvas boundaries.
             _paddle1Y = Math.Max(0, Math.Min(GameCanvas.Height - Paddle1.Height, _paddle1Y));
             _paddle2Y = Math.Max(0, Math.Min(GameCanvas.Height - Paddle2.Height, _paddle2Y));
+        }
+
+        private void UpdateScores()
+        {
+            txtPlayer1Score.Text = _player1Score.ToString();
+            txtPlayer2Score.Text = _player2Score.ToString();
         }
 
         private void RenderBall()
