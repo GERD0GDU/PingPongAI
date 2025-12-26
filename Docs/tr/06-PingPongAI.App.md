@@ -122,6 +122,8 @@ Bu uygulama, ileride geliştirilecek nöral yapıların:
 
 net biçimde gözlemleyebilmek için temel bir yapı taşıdır.
 
+Bir sonraki bölümde [Ping-pong oyun kuralları](./07-PingPongAI.App.Rules.md) anlatılacaktır.
+
 ## Ayrıca Bakınız
 
 - [Ana Sayfa](../../README.md)
@@ -132,3 +134,4 @@ net biçimde gözlemleyebilmek için temel bir yapı taşıdır.
 - [Ödül ve ceza, self-play, temel RL mantığı](./04-ReinforcementLearning.md)
 - [Hassabis yaklaşımı, self-play, modüler mimari](./05-WhyThisArchitecture.md)
 - *PingPongAI.App Gerekçeleri*
+- &gt; [PingPongAI.App Oyun Kuralları](./07-PingPongAI.App.Rules.md)

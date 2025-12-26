@@ -151,3 +151,4 @@ Sonraki dokümanda, bu öğrenmenin temel yapı taşı olan
 - [Ödül ve ceza, self-play, temel RL mantığı](./04-ReinforcementLearning.md)
 - [Hassabis yaklaşımı, self-play, modüler mimari](./05-WhyThisArchitecture.md)
 - [PingPongAI.App Gerekçeleri](./06-PingPongAI.App.md)
+- [PingPongAI.App Oyun Kuralları](./07-PingPongAI.App.Rules.md)

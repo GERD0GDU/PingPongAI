@@ -13,18 +13,15 @@ namespace PingPongAI.App
     public partial class MainWindow : Window
     {
         private const double SPEED_FACTOR = 0.3;
-        private const double PADDLE_SPEED = 300; // piksel/saniye
+        private const double PADDLE_SPEED = 250; // piksel/saniye
 
         private Random _rnd = new(Environment.TickCount);
         private DispatcherTimer? _gameTimer = null;
 
-        private double _ballX = 0;
-        private double _ballY = 0;
-
-        private double _velocityX = 0;
-        private double _velocityY = 0;
-
         private DateTime _lastUpdateTime;
+
+        private Point _ptBall = default;
+        private Point _ptVelocity = default;
 
         private int _paddle1Direction = 0;
         private int _paddle2Direction = 0;
@@ -92,20 +89,44 @@ namespace PingPongAI.App
 
         private void ResetBall(bool fromLeft)
         {
-            _ballX = fromLeft
-                ? Canvas.GetLeft(Paddle1) + Paddle1.Width + 1
-                : Canvas.GetLeft(Paddle2) - Ball.Width - 1;
+            double radius = Ball.Width / 2;
 
-            _ballY = fromLeft
-                ? Canvas.GetTop(Paddle1) + (Paddle1.Height - Ball.Height) / 2
-                : Canvas.GetTop(Paddle2) + (Paddle2.Height - Ball.Height) / 2;
+            // Paddle bilgileri
+            double paddleX = fromLeft
+                ? Canvas.GetLeft(Paddle1)
+                : Canvas.GetLeft(Paddle2);
 
-            // Yeni rastgele yön
-            int directionX = fromLeft ? 1 : -1;
-            int directionY = _rnd.Next(0, 2) == 0 ? -1 : 1;
+            double paddleY = fromLeft
+                ? _paddle1Y
+                : _paddle2Y;
 
-            _velocityX = directionX * GameCanvas.Width * SPEED_FACTOR;
-            _velocityY = directionY * GameCanvas.Height * SPEED_FACTOR;
+            double paddleHeight = Paddle1.Height;
+
+            // Paddle üzerinde -1 .. +1 arası rastgele temas noktası
+            double impactOffset = _rnd.NextDouble() * 2.0 - 1.0;
+
+            // Topun Y konumu (merkez bazlı hesap)
+            double paddleCenterY = paddleY + paddleHeight / 2;
+            double ballCenterY = paddleCenterY + impactOffset * (paddleHeight / 2);
+
+            // X konumu (paddle dışına yerleştir)
+            _ptBall.X = fromLeft
+                ? paddleX + Paddle1.Width + 1
+                : paddleX - Ball.Width - 1;
+
+            _ptBall.Y = ballCenterY - radius;
+
+            // Hız yönleri
+            double dirX = fromLeft ? 1 : -1;
+
+            // Başlangıç hız büyüklüğü
+            double speedX = GameCanvas.Width * SPEED_FACTOR;
+            double speedY = GameCanvas.Height * SPEED_FACTOR * impactOffset;
+
+            _ptVelocity = new(
+                dirX * speedX,
+                speedY
+            );
         }
 
         private void GameLoop(object? sender, EventArgs e)
@@ -130,26 +151,29 @@ namespace PingPongAI.App
             double maxY = GameCanvas.Height - Ball.Height;
 
             Point prevCenter = new(
-                _ballX + radius,
-                _ballY + radius
+                _ptBall.X + radius,
+                _ptBall.Y + radius
             );
 
-            _ballX += _velocityX * deltaTime;
-            _ballY += _velocityY * deltaTime;
+            _ptBall += new Vector(
+                _ptVelocity.X * deltaTime,
+                _ptVelocity.Y * deltaTime
+             );
 
             Point nextCenter = new(
-                _ballX +  radius,
-                _ballY +  radius
+                _ptBall.X + radius,
+                _ptBall.Y + radius
             );
+
+            Vector movement = nextCenter - prevCenter;
+            if (movement.LengthSquared < 0.000001)
+                return;
 
             Ray ray = new()
             {
                 Origin = prevCenter,
-                Direction = nextCenter - prevCenter
+                Direction = movement
             };
-
-            if (ray.Direction.LengthSquared < 0.000001)
-                return;
 
             Rect paddle1Rect = new(
                 Canvas.GetLeft(Paddle1) + Paddle1.Width - radius,
@@ -167,66 +191,79 @@ namespace PingPongAI.App
 
             HitInfo hit1 = Utils.RayVsRect(ray, paddle1Rect);
             HitInfo hit2 = Utils.RayVsRect(ray, paddle2Rect);
+
             HitInfo hit = default;
             bool hasHit = false;
+            bool hitPaddle1 = false;
 
             if (hit1.Hit && hit2.Hit)
             {
                 hit = hit1.Time < hit2.Time ? hit1 : hit2;
+                hitPaddle1 = hit.Equals(hit1);
                 hasHit = true;
             }
             else if (hit1.Hit)
             {
                 hit = hit1;
+                hitPaddle1 = true;
                 hasHit = true;
             }
             else if (hit2.Hit)
             {
                 hit = hit2;
+                hitPaddle1 = false;
                 hasHit = true;
             }
 
             if (hasHit)
             {
-                Point contact = prevCenter + ray.Direction * hit.Time;
+                Point contact = prevCenter + movement * hit.Time;
                 contact += hit.Normal * 0.001;
 
-                _ballX = contact.X - radius;
-                _ballY = contact.Y - radius;
+                _ptBall.X = contact.X - radius;
+                _ptBall.Y = contact.Y - radius;
 
-                if (hit.Normal.X != 0)
-                    _velocityX *= -1;
-                if (hit.Normal.Y != 0)
-                    _velocityY *= -1;
+                double paddleY = hitPaddle1 ? _paddle1Y : _paddle2Y;
+                double paddleHeight = Paddle1.Height;
+
+                double paddleCenterY = paddleY + paddleHeight / 2;
+                double impactOffset = (contact.Y - paddleCenterY) / (paddleHeight / 2);
+                impactOffset = Math.Max(-1.0, Math.Min(1.0, impactOffset));
+
+                // Turn X completely in the opposite direction.
+                _ptVelocity.X = Math.Abs(_ptVelocity.X) * (hitPaddle1 ? 1 : -1);
+
+                // Adjust the Y speed according to the point of contact.
+                _ptVelocity.Y += impactOffset * Math.Abs(_ptVelocity.X) * 0.75;
             }
 
-            // Is Top hitting the canvas limits?
-            if (_ballY < 0)
+            if (_ptBall.Y < 0)
             {
-                _ballY = 0;
-                _velocityY *= -1;
+                _ptBall.Y = 0;
+                _ptVelocity.Y *= -1;
             }
-            else if (_ballY > maxY)
+            else if (_ptBall.Y > maxY)
             {
-                _ballY = maxY;
-                _velocityY *= -1;
+                _ptBall.Y = maxY;
+                _ptVelocity.Y *= -1;
             }
 
-            // If the ball has passed the paddles (score)
-            if (_ballX < 0) // It surpassed Paddle1.
+            if (_ptBall.X < 0)
             {
-                ResetBall(fromLeft: false);
                 _player2Score++;
+                ResetBall(fromLeft: false);
             }
-            else if (_ballX > maxX) // It surpassed Paddle2.
+            else if (_ptBall.X > maxX)
             {
-                ResetBall(fromLeft: true);
                 _player1Score++;
+                ResetBall(fromLeft: true);
             }
         }
 
+
         private void UpdatePaddles(double deltaTime)
         {
+            Debug.WriteLine(deltaTime);
             _paddle1Y += _paddle1Direction * PADDLE_SPEED * deltaTime;
             _paddle2Y += _paddle2Direction * PADDLE_SPEED * deltaTime;
 
@@ -243,8 +280,8 @@ namespace PingPongAI.App
 
         private void RenderBall()
         {
-            Canvas.SetLeft(Ball, _ballX);
-            Canvas.SetTop(Ball, _ballY);
+            Canvas.SetLeft(Ball, _ptBall.X);
+            Canvas.SetTop(Ball, _ptBall.Y);
         }
 
         private void RenderPaddles()

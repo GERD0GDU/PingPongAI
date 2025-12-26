@@ -135,10 +135,11 @@ In the next document, the rationale behind the [**PingPongAI.App**](./06-PingPon
 ## See Also
 
 - [Home](./README.md)
-- [What AI is and is not, its relation to code](00-WhatIsAI.md)
+- [What AI is and is not, its relation to code](./00-WhatIsAI.md)
 - [The concept of learning, supervised / unsupervised / reinforcement](./01-WhatIsLearning.md)
 - [Artificial neuron, input/weight/bias, simple example](./02-Neuron.md)
 - [Mini neural network, hidden layer, feedforward network](./03-NeuralNetwork.md)
 - [Reward and punishment, self-play, basic RL logic](./04-ReinforcementLearning.md)
 - *Hassabis approach, self-play, modular architecture*
-- &gt; [PingPongAI.App Rationales](./06-PingPongAI.App.md)
+- &gt; [PingPongAI.App Rationale](./06-PingPongAI.App.md)
+- [PingPongAI.App Game Rules](./07-PingPongAI.App.Rules.md)

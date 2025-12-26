@@ -225,10 +225,11 @@ In the next document, [**Demis Hassabis' approach**](./05-WhyThisArchitecture.md
 ## See Also
 
 - [Home](.//README.md)
-- [What AI is and is not, its relation to code](00-WhatIsAI.md)
+- [What AI is and is not, its relation to code](./00-WhatIsAI.md)
 - [The concept of learning, supervised / unsupervised / reinforcement](./01-WhatIsLearning.md)
 - [Artificial neuron, input/weight/bias, simple example](./02-Neuron.md)
 - [Mini neural network, hidden layer, feedforward network](./03-NeuralNetwork.md)
 - *Reward and punishment, self-play, basic RL logic*
-- &gt; [Hassabis approach, self-play, modular architecture](./05-WhyThisArchitecture.md)
-- [PingPongAI.App Rationales](./06-PingPongAI.App.md)
+- [&gt; Hassabis approach, self-play, modular architecture](./05-WhyThisArchitecture.md)
+- [PingPongAI.App Rationale](./06-PingPongAI.App.md)
+- [PingPongAI.App Game Rules](./07-PingPongAI.App.Rules.md)
