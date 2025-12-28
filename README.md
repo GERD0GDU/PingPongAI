@@ -10,7 +10,7 @@ Yapay zekâ kontrollü masa tenisi oyunu - C#/.NET Core kullanarak sıfırdan ke
 
 ## 🌐 Çok Dilli Destek
 
-[English](./Docs/en/ReadMe.md)
+[English](./Docs/en/README.md)
 
 > *Diğer dillere çeviri işlemi AI tarafından yapılmıştır.*
 
