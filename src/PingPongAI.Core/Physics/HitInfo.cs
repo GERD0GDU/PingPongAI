@@ -1,11 +1,11 @@
-﻿using System.Windows;
+using PingPongAI.Core.Math;
 
-namespace PingPongAI.Core
+namespace PingPongAI.Core.Physics
 {
     public struct HitInfo
     {
         public bool Hit;
         public double Time;   // 0..1
-        public Vector Normal; // sekme yönü
+        public Vec2 Normal;
     }
 }

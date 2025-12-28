@@ -1,27 +1,27 @@
-﻿using System.Windows;
+using PingPongAI.Core.Math;
 
-namespace PingPongAI.Core
+namespace PingPongAI.Core.Physics
 {
-    public static class Utils
+    public static class Collision
     {
-        public static HitInfo RayVsRect(Ray ray, Rect rect)
+        public static HitInfo RayVsRect(Ray2 ray, Rect2 rect)
         {
-            HitInfo hit = new() { Hit = false };
+            HitInfo hit = new HitInfo() { Hit = false };
 
             if (ray.Direction.X == 0 && ray.Direction.Y == 0)
                 return hit;
 
-            Vector invDir = new(
+            Vec2 invDir = new Vec2(
                 ray.Direction.X != 0 ? 1.0 / ray.Direction.X : double.PositiveInfinity,
                 ray.Direction.Y != 0 ? 1.0 / ray.Direction.Y : double.PositiveInfinity
             );
 
-            Vector tNear = new(
+            Vec2 tNear = new Vec2(
                 (rect.Left - ray.Origin.X) * invDir.X,
                 (rect.Top - ray.Origin.Y) * invDir.Y
             );
 
-            Vector tFar = new(
+            Vec2 tFar = new Vec2(
                 (rect.Right - ray.Origin.X) * invDir.X,
                 (rect.Bottom - ray.Origin.Y) * invDir.Y
             );
@@ -35,8 +35,8 @@ namespace PingPongAI.Core
             if (tNear.X > tFar.Y || tNear.Y > tFar.X)
                 return hit;
 
-            double tHitNear = Math.Max(tNear.X, tNear.Y);
-            double tHitFar = Math.Min(tFar.X, tFar.Y);
+            double tHitNear = System.Math.Max(tNear.X, tNear.Y);
+            double tHitFar = System.Math.Min(tFar.X, tFar.Y);
 
             if (tHitFar < 0 || tHitNear < 0 || tHitNear > 1)
                 return hit;
@@ -45,12 +45,11 @@ namespace PingPongAI.Core
             hit.Time = tHitNear;
 
             if (tNear.X > tNear.Y)
-                hit.Normal = new Vector(invDir.X < 0 ? 1 : -1, 0);
+                hit.Normal = new Vec2(invDir.X < 0 ? 1 : -1, 0);
             else
-                hit.Normal = new Vector(0, invDir.Y < 0 ? 1 : -1);
+                hit.Normal = new Vec2(0, invDir.Y < 0 ? 1 : -1);
 
             return hit;
         }
-
     }
 }

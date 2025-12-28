@@ -5,6 +5,10 @@ VisualStudioVersion = 17.14.36811.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPongAI.App", "src\PingPongAI.App\PingPongAI.App.csproj", "{1311E3C4-37C4-6833-FD82-F916E2DA4498}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPongAI.AI", "src\PingPongAI.AI\PingPongAI.AI.csproj", "{3E127B31-1ECE-B308-976E-0F7BB96493CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPongAI.Core", "src\PingPongAI.Core\PingPongAI.Core.csproj", "{B28461BA-65E8-9921-687E-FFBE7F63C78A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{1311E3C4-37C4-6833-FD82-F916E2DA4498}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1311E3C4-37C4-6833-FD82-F916E2DA4498}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1311E3C4-37C4-6833-FD82-F916E2DA4498}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E127B31-1ECE-B308-976E-0F7BB96493CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E127B31-1ECE-B308-976E-0F7BB96493CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E127B31-1ECE-B308-976E-0F7BB96493CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E127B31-1ECE-B308-976E-0F7BB96493CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B28461BA-65E8-9921-687E-FFBE7F63C78A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B28461BA-65E8-9921-687E-FFBE7F63C78A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B28461BA-65E8-9921-687E-FFBE7F63C78A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B28461BA-65E8-9921-687E-FFBE7F63C78A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
