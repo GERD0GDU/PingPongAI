@@ -61,7 +61,42 @@ Bu yaklaşım, kazanan oyuncunun avantajlı ama deterministik olmayan bir başla
 
 Bu kurallar, `PingPongAI.App` uygulamasının hem oynanabilir bir oyun hem de güvenilir bir AI eğitim ortamı olmasını sağlar.
 
-## Güncel Durum
+## v1.0-basic Kapsam Özeti
+
+Bu sürüm, `PingPongAI.App` uygulamasının oynanabilir ve deterministik bir temel oyun çekirdeği oluşturmasını hedefler.
+
+Bu kapsamda:
+
+- Fizik kuralları ve çarpışma hesapları netleştirilmiştir
+- İnsan - insan oyuncu etkileşimi desteklenmiştir
+- AI entegrasyonu için gerekli altyapı hazırlanmıştır
+
+Bu sürüm, ileride eklenecek AI ve reinforcement learning bileşenleri için referans noktası olarak kullanılacaktır.
+
+## Tamamlanan Özellikler (v1.0-basic)
+
+- [x] Temel Ping Pong oyun mekaniği
+- [x] Deterministik top hareketi ve çarpışma hesapları
+- [x] Raket - top çarpışma noktasına bağlı sekme davranışı
+- [x] İki oyunculu (insan - insan) oynanış
+- [x] Klavye kontrollü raket hareketleri
+- [x] Puanlama sistemi
+- [x] Tunneling probleminin RayVsRect yaklaşımı ile çözülmesi
+- [x] Oyun turlarının deterministik şekilde yeniden başlatılması
+
+## Bilinçli Olarak Kapsam Dışı Bırakılanlar
+
+Aşağıdaki konular bu sürümde bilinçli olarak uygulanmamıştır:
+
+- [ ] AI veya bot oyuncu davranışları
+- [ ] Reinforcement learning altyapısı
+- [ ] Oyun içi ödül - ceza mekanizmaları
+- [ ] Model eğitimi veya inference süreçleri
+- [ ] Görsel efektler veya animasyon iyileştirmeleri
+- [ ] Ses efektleri
+- [ ] Network veya çok oyunculu (online) destek
+
+Bu konular, ilerleyen sürümlerde kontrollü ve aşamalı şekilde ele alınacaktır.
 
 Dokümanın bu noktasına kadar yapılan değişiklikler ve güncellemelere ait kodlara [v1.0-basic](https://github.com/GERD0GDU/PingPongAI/tree/v1.0-basic) etiketinden erişebilirsiniz.
 

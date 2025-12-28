@@ -61,9 +61,44 @@ This approach gives the winning player an advantage without introducing determin
 
 These rules ensure that `PingPongAI.App` functions both as a playable game and as a reliable AI training environment.
 
-## Current Status
+## v1.0-basic Scope Summary
 
-You can access the code related to the changes and updates made up to this point in the document via the [v1.0-basic](https://github.com/GERD0GDU/PingPongAI/tree/v1.0-basic) tag.
+This version aims to establish a playable and deterministic core game engine for the `PingPongAI.App` application.
+
+Within this scope:
+
+- Physics rules and collision calculations have been clearly defined
+- Human - human player interaction has been supported
+- The necessary infrastructure for future AI integration has been prepared
+
+This version will serve as a reference point for upcoming AI and reinforcement learning components.
+
+## Completed Features (v1.0-basic)
+
+- [x] Core Ping Pong game mechanics
+- [x] Deterministic ball movement and collision calculations
+- [x] Bounce behavior based on paddle - ball collision point
+- [x] Two-player (human - human) gameplay
+- [x] Keyboard-controlled paddle movement
+- [x] Scoring system
+- [x] Resolution of the tunneling problem using the RayVsRect approach
+- [x] Deterministic restart of game rounds
+
+## Intentionally Out of Scope
+
+The following topics have been intentionally excluded from this version:
+
+- [ ] AI or bot player behaviors
+- [ ] Reinforcement learning infrastructure
+- [ ] In-game reward - penalty mechanisms
+- [ ] Model training or inference processes
+- [ ] Visual effects or animation enhancements
+- [ ] Sound effects
+- [ ] Network or multiplayer (online) support
+
+These topics will be addressed in a controlled and incremental manner in future versions.
+
+You can access the code corresponding to the changes and updates up to this point via the [v1.0-basic](https://github.com/GERD0GDU/PingPongAI/tree/v1.0-basic) tag.
 
 ## See Also
 
