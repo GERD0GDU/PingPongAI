@@ -63,7 +63,7 @@ These rules ensure that `PingPongAI.App` functions both as a playable game and a
 
 ## Current Status
 
-You can access the code related to the changes and updates made up to this point in the document via the [v1.0-basic](/tree/v1.0-basic) tag.
+You can access the code related to the changes and updates made up to this point in the document via the [v1.0-basic](https://github.com/GERD0GDU/PingPongAI/tree/v1.0-basic) tag.
 
 ## See Also
 

@@ -63,7 +63,7 @@ Bu kurallar, `PingPongAI.App` uygulamasının hem oynanabilir bir oyun hem de g�
 
 ## Güncel Durum
 
-Dokümanın bu noktasına kadar yapılan değişiklikler ve güncellemelere ait kodlara [v1.0-basic](/tree/v1.0-basic) etiketinden erişebilirsiniz.
+Dokümanın bu noktasına kadar yapılan değişiklikler ve güncellemelere ait kodlara [v1.0-basic](https://github.com/GERD0GDU/PingPongAI/tree/v1.0-basic) etiketinden erişebilirsiniz.
 
 ## Ayrıca Bakınız
 
