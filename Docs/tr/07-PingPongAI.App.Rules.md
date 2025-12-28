@@ -61,6 +61,10 @@ Bu yaklaşım, kazanan oyuncunun avantajlı ama deterministik olmayan bir başla
 
 Bu kurallar, `PingPongAI.App` uygulamasının hem oynanabilir bir oyun hem de güvenilir bir AI eğitim ortamı olmasını sağlar.
 
+## Güncel Durum
+
+Dokümanın bu noktasına kadar yapılan değişiklikler ve güncellemelere ait kodlara [v1.0-basic](../../tree/v1.0-basic) etiketinden erişebilirsiniz.
+
 ## Ayrıca Bakınız
 
 - [Ana Sayfa](../../README.md)

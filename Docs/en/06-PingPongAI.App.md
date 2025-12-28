@@ -23,6 +23,9 @@ The goal is not to write a "high-score producing bot", but to make every step of
 
 The application was developed as a desktop Windows application, and WPF was chosen for the UI layer.
 
+> - **Microsoft Visual Studio Community 2022 (64-bit) - Version 17.14.23** was used as the code editor.
+> - **Visual Studio Code - Version 1.107.1** was used for editing Markdown documents.
+
 The reasons for this choice are as follows.
 
 - Natural integration with the .NET ecosystem

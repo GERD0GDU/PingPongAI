@@ -127,7 +127,8 @@ Sonraki dokümanda, [**AI nedir**](./Docs/tr/00-WhatIsAI.md) sorusuna yanıt ara
 
 ## Ayrıca Bakınız
 
-- [AI nedir, ne değildir, kodla ilişkisi](./Docs/tr/00-WhatIsAI.md)
+- *Ana Sayfa*
+- &gt; [AI nedir, ne değildir, kodla ilişkisi](./Docs/tr/00-WhatIsAI.md)
 - [Öğrenme kavramı, supervised / unsupervised / reinforcement](./Docs/tr/01-WhatIsLearning.md)
 - [Yapay nöron, girdi/ağırlık/bias, basit örnek](./Docs/tr/02-Neuron.md)
 - [Mini neural network, hidden layer, ileri beslemeli ağ](./Docs/tr/03-NeuralNetwork.md)

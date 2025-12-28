@@ -23,6 +23,9 @@ Amaç, "yüksek skor üreten bir bot" yazmak değil, öğrenme sürecinin her ad
 
 Uygulama masaüstü bir Windows uygulaması olarak geliştirilmiştir ve UI katmanı için WPF tercih edilmiştir.
 
+> - Kod editörü olarak **Microsoft Visual Studio Community 2022 (64-bit) - Version 17.14.23** kullanılmıştır.
+> - Markdown dokümanları için **Visual Studio Code - Versiyon 1.107.1** editörü kullanılmıştır.
+
 Bu tercihin nedenleri şunlardır.
 
 - .NET ekosistemi ile doğal uyum

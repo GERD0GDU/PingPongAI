@@ -61,6 +61,10 @@ This approach gives the winning player an advantage without introducing determin
 
 These rules ensure that `PingPongAI.App` functions both as a playable game and as a reliable AI training environment.
 
+## Current Status
+
+You can access the code related to the changes and updates made up to this point in the document via the [v1.0-basic](../../tree/v1.0-basic) tag.
+
 ## See Also
 
 - [Home Page](./README.md)
