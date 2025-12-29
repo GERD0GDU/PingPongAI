@@ -1,26 +1,29 @@
 ﻿using PingPongAI.Core.Math;
+using System;
 
 namespace PingPongAI.Core.States
 {
-    public sealed class GameState : IGameState
+    public sealed class GameState : ICloneable
     {
-        internal int _leftScore;
-        internal int _rightScore;
-
         public Rect2 GameArea = new Rect2();
-        public BallState Ball { get; } = new BallState();
-        public PaddleState LeftPaddle { get; } = new PaddleState();
-        public PaddleState RightPaddle { get; } = new PaddleState();
+        public BallState Ball { get; internal set; } = new BallState();
+        public PaddleState LeftPaddle { get; internal set; } = new PaddleState();
+        public PaddleState RightPaddle { get; internal set; } = new PaddleState();
+        public int LeftScore { get; internal set; }
+        public int RightScore { get; internal set; }
 
-        public double Width => GameArea.Width;
-        public double Height => GameArea.Height;
-        public double BallX => Ball.X;
-        public double BallY => Ball.Y;
-        public double BallCenterX => Ball.CenterX;
-        public double BallCenterY => Ball.CenterY;
-        public double LeftPaddleY => LeftPaddle.Y;
-        public double RightPaddleY => RightPaddle.Y;
-        public double LeftScore => _leftScore;
-        public double RightScore => _rightScore;
+        // ICloneable implements
+        public object Clone()
+        {
+            return new GameState()
+            {
+                GameArea = GameArea,
+                Ball = (BallState)Ball.Clone(),
+                LeftPaddle = (PaddleState)LeftPaddle.Clone(),
+                RightPaddle = (PaddleState)RightPaddle.Clone(),
+                LeftScore = LeftScore,
+                RightScore = RightScore
+            };
+        }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using PingPongAI.Core.Math;
+using System;
 
 namespace PingPongAI.Core.States
 {
-    public sealed class BallState
+    public sealed class BallState : ICloneable
     {
         public Rect2 Bounds;
         public Vec2 Velocity;
@@ -68,6 +69,16 @@ namespace PingPongAI.Core.States
         {
             get { return Bounds.Height; }
             set { Bounds.Height = value; }
+        }
+
+        // ICloneable implements
+        public object Clone()
+        {
+            return new BallState()
+            {
+                Bounds = Bounds,
+                Velocity = Velocity
+            };
         }
     }
 }

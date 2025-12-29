@@ -138,3 +138,4 @@ Bir sonraki bölümde [Ping-pong oyun kuralları](./07-PingPongAI.App.Rules.md) 
 - [Hassabis yaklaşımı, self-play, modüler mimari](./05-WhyThisArchitecture.md)
 - *PingPongAI.App Gerekçeleri*
 - &gt; [PingPongAI.App Oyun Kuralları](./07-PingPongAI.App.Rules.md)
+- [Kural Tabanlı Ajan Yaklaşımı](./08-RuleBased.md)

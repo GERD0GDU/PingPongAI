@@ -144,3 +144,4 @@ Bir sonraki dokümanda, WPF masaüstü olarak geliştirilen [**PingPongAI.App**]
 - *Hassabis yaklaşımı, self-play, modüler mimari*
 - &gt; [PingPongAI.App Gerekçeleri](./06-PingPongAI.App.md)
 - [PingPongAI.App Oyun Kuralları](./07-PingPongAI.App.Rules.md)
+- [Kural Tabanlı Ajan Yaklaşımı](./08-RuleBased.md)

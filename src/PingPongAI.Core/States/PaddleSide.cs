@@ -1,6 +1,6 @@
 ﻿namespace PingPongAI.Core.States
 {
-    public enum PaddleTypes
+    public enum PaddleSide
     {
         Left,
         Right

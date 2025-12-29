@@ -134,3 +134,4 @@ This application serves as a foundational building block for clearly observing t
 - [Hassabis approach, self-play, modular architecture](./05-WhyThisArchitecture.md)
 - *PingPongAI.App Rationale*
 - &gt; [PingPongAI.App Game Rules](./07-PingPongAI.App.Rules.md)
+- [Rule-Based Agent Approach](./08-RuleBased.md)

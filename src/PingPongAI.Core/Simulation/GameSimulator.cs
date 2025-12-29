@@ -13,22 +13,36 @@ namespace PingPongAI.Core.Simulation
         private Random _rnd = new Random(Environment.TickCount);
         private GameState _gameState = null;
 
-        public IGameState State => _gameState;
+        //public GameState State => (GameState)_gameState.Clone(); // I'm not sure right now!
+        public GameState State => _gameState;
 
         public void Initialize(GameState gameState)
         {
             _gameState = gameState;
-
-            // select a random player.
-            ResetBall(_rnd.Next(2) == 0 ? PaddleTypes.Left : PaddleTypes.Right);
+            Reset();
         }
 
-        public void ResetBall(PaddleTypes fromType)
+        public void Reset()
         {
             if (_gameState == null)
                 throw new ArgumentNullException("_gameState");
 
-            bool fromLeft = fromType == PaddleTypes.Left;
+            _gameState.LeftPaddle.Y = (_gameState.GameArea.Height - _gameState.LeftPaddle.Height) / 2;
+            _gameState.RightPaddle.Y = (_gameState.GameArea.Height - _gameState.RightPaddle.Height) / 2;
+
+            _gameState.LeftScore = 0;
+            _gameState.RightScore = 0;
+
+            // select a random player.
+            ResetBall(_rnd.Next(2) == 0 ? PaddleSide.Left : PaddleSide.Right);
+        }
+
+        public void ResetBall(PaddleSide fromType)
+        {
+            if (_gameState == null)
+                throw new ArgumentNullException("_gameState");
+
+            bool fromLeft = fromType == PaddleSide.Left;
             // active paddle
             PaddleState paddle = fromLeft
                 ? _gameState.LeftPaddle
@@ -172,13 +186,13 @@ namespace PingPongAI.Core.Simulation
 
             if (ball.X < 0)
             {
-                _gameState._rightScore++;
-                ResetBall(fromType: PaddleTypes.Right);
+                _gameState.RightScore++;
+                ResetBall(fromType: PaddleSide.Right);
             }
             else if (ball.X > maxX)
             {
-                _gameState._leftScore++;
-                ResetBall(fromType: PaddleTypes.Left);
+                _gameState.LeftScore++;
+                ResetBall(fromType: PaddleSide.Left);
             }
         }
 
@@ -204,12 +218,12 @@ namespace PingPongAI.Core.Simulation
             UpdatePaddles(deltaTime);
         }
 
-        public void UpdatePaddleDirection(PaddleTypes type, Direction dir)
+        public void UpdatePaddleDirection(PaddleSide paddleSide, Direction dir)
         {
             if (_gameState == null)
                 throw new ArgumentNullException("_gameState");
 
-            PaddleState paddle = type == PaddleTypes.Left
+            PaddleState paddle = paddleSide == PaddleSide.Left
                 ? _gameState.LeftPaddle
                 : _gameState.RightPaddle;
             paddle.Direction = dir == Direction.Up

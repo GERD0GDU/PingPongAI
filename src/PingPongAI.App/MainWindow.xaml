@@ -33,7 +33,23 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <TextBlock x:Name="txtPlayer1Cap" VerticalAlignment="Center" FontWeight="Bold" FontSize="16" Foreground="Gray">Human 1</TextBlock>
+            <ComboBox x:Name="chkPlayer1"
+                      Margin="0,0,4,0"
+                      Width="150"
+                      VerticalAlignment="Center"
+                      ItemsSource="{Binding AgentTypeItems}"
+                      SelectedItem="{Binding LeftAgentType}">
+                <ComboBox.Style>
+                    <Style TargetType="ComboBox">
+                        <Setter Property="IsEnabled" Value="True" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsRunning}" Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.Style>
+            </ComboBox>
             <TextBlock x:Name="txtPlayer1Score" Grid.Row="1" VerticalAlignment="Center" FontWeight="Bold" FontFamily="Consolas" FontSize="22" Foreground="Green">0</TextBlock>
 
             <Border Margin="2" Height="24" Grid.Column="1" HorizontalAlignment="Left" BorderBrush="Gray" BorderThickness="1" CornerRadius="2">
@@ -43,6 +59,36 @@
                 <TextBlock x:Name="txtPlayer1DownKey" VerticalAlignment="Center" Padding="4,0" FontFamily="Consolas" TextAlignment="Center" Foreground="Gray">S ⮟</TextBlock>
             </Border>
 
+            <Button x:Name="btnStartStop" Grid.Column="2" Click="btnStartStop_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Content" Value="Start" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsRunning}" Value="True">
+                                <Setter Property="Content" Value="Stop" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <CheckBox
+                Grid.Row="1" Grid.Column="2"
+                Content="Enable AI Training"
+                Foreground="White"
+                IsChecked="{Binding IsTrainingEnabled}"
+                Margin="4">
+                <CheckBox.Style>
+                    <Style TargetType="CheckBox">
+                        <Setter Property="IsEnabled" Value="True" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsRunning}" Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </CheckBox.Style>
+            </CheckBox>
+
             <Border Margin="2" Height="24" Grid.Column="3" HorizontalAlignment="Right" BorderBrush="Gray" BorderThickness="1" CornerRadius="2">
                 <TextBlock x:Name="txtPlayer2UpKey" VerticalAlignment="Center" Padding="4,0" FontFamily="Consolas" TextAlignment="Center" Foreground="Gray">⮝</TextBlock>
             </Border>
@@ -50,7 +96,23 @@
                 <TextBlock x:Name="txtPlayer2DownKey" VerticalAlignment="Center" Padding="4,0" FontFamily="Consolas" TextAlignment="Center" Foreground="Gray">⮟</TextBlock>
             </Border>
 
-            <TextBlock x:Name="txtPlayer2Cap" Grid.Column="4" VerticalAlignment="Center" TextAlignment="Right" FontWeight="Bold" FontSize="16" Foreground="Gray">Human 2</TextBlock>
+            <ComboBox x:Name="chkPlayer2" Grid.Column="4"
+                  Margin="4,0,0,0"
+                  Width="150"
+                  VerticalAlignment="Center"
+                  ItemsSource="{Binding AgentTypeItems}"
+                  SelectedItem="{Binding RightAgentType}">
+                <ComboBox.Style>
+                    <Style TargetType="ComboBox">
+                        <Setter Property="IsEnabled" Value="True" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsRunning}" Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.Style>
+            </ComboBox>
             <TextBlock x:Name="txtPlayer2Score" Grid.Row="1" Grid.Column="4" VerticalAlignment="Center" TextAlignment="Right" FontFamily="Consolas" FontWeight="Bold" FontSize="22" Foreground="Green">0</TextBlock>
         </Grid>
 

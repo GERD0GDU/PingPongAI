@@ -100,6 +100,8 @@ These topics will be addressed in a controlled and incremental manner in future 
 
 You can access the code corresponding to the changes and updates up to this point via the [v1.0-basic](https://github.com/GERD0GDU/PingPongAI/tree/v1.0-basic) tag.
 
+The next topic will explain the [Rule-Based Agent Approach](./08-RuleBased.md) structure.
+
 ## See Also
 
 - [Home Page](./README.md)
@@ -111,3 +113,4 @@ You can access the code corresponding to the changes and updates up to this poin
 - [Hassabis approach, self-play, modular architecture](./05-WhyThisArchitecture.md)
 - [PingPongAI.App Rationale](./06-PingPongAI.App.md)
 - *PingPongAI.App Game Rules*
+- &gt; [Rule-Based Agent Approach](./08-RuleBased.md)

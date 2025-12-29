@@ -100,6 +100,8 @@ Bu konular, ilerleyen sürümlerde kontrollü ve aşamalı şekilde ele alınaca
 
 Dokümanın bu noktasına kadar yapılan değişiklikler ve güncellemelere ait kodlara [v1.0-basic](https://github.com/GERD0GDU/PingPongAI/tree/v1.0-basic) etiketinden erişebilirsiniz.
 
+Bir sonraki konuda [Kural Tabanlı Ajan Yaklaşımı](./08-RuleBased.md) yapısı anlatılacaktır.
+
 ## Ayrıca Bakınız
 
 - [Ana Sayfa](../../README.md)
@@ -111,3 +113,4 @@ Dokümanın bu noktasına kadar yapılan değişiklikler ve güncellemelere ait 
 - [Hassabis yaklaşımı, self-play, modüler mimari](./05-WhyThisArchitecture.md)
 - [PingPongAI.App Gerekçeleri](./06-PingPongAI.App.md)
 - *PingPongAI.App Oyun Kuralları*
+- &gt; [Kural Tabanlı Ajan Yaklaşımı](./08-RuleBased.md)

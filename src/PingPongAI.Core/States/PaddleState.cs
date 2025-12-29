@@ -1,8 +1,9 @@
 ﻿using PingPongAI.Core.Math;
+using System;
 
 namespace PingPongAI.Core.States
 {
-    public sealed class PaddleState
+    public sealed class PaddleState : ICloneable
     {
         public Rect2 Bounds;
         public int Direction;
@@ -32,6 +33,16 @@ namespace PingPongAI.Core.States
                 Bounds.X = value.X;
                 Bounds.Y = value.Y;
             }
+        }
+
+        // ICloneable implements
+        public object Clone()
+        {
+            return new PaddleState()
+            {
+                Bounds = Bounds,
+                Direction = Direction
+            };
         }
     }
 }

@@ -136,3 +136,4 @@ Sonraki dokümanda, [**AI nedir**](./Docs/tr/00-WhatIsAI.md) sorusuna yanıt ara
 - [Hassabis yaklaşımı, self-play, modüler mimari](./Docs/tr/05-WhyThisArchitecture.md)
 - [PingPongAI.App Gerekçeleri](./Docs/tr/06-PingPongAI.App.md)
 - [PingPongAI.App Oyun Kuralları](./Docs/tr/07-PingPongAI.App.Rules.md)
+- [Kural Tabanlı Ajan Yaklaşımı](./Docs/tr/08-RuleBased.md)

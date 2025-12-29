@@ -143,3 +143,4 @@ In the next document, the rationale behind the [**PingPongAI.App**](./06-PingPon
 - *Hassabis approach, self-play, modular architecture*
 - &gt; [PingPongAI.App Rationale](./06-PingPongAI.App.md)
 - [PingPongAI.App Game Rules](./07-PingPongAI.App.Rules.md)
+- [Rule-Based Agent Approach](./08-RuleBased.md)

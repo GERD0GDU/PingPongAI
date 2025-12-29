@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PingPongAI.AI\PingPongAI.AI.csproj" />
     <ProjectReference Include="..\PingPongAI.Core\PingPongAI.Core.csproj" />
   </ItemGroup>
 

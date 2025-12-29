@@ -177,3 +177,4 @@ Bir sonraki dokümanda, bu nöronların nasıl bir araya geldiğini ve [**neural
 - [Hassabis yaklaşımı, self-play, modüler mimari](./05-WhyThisArchitecture.md)
 - [PingPongAI.App Gerekçeleri](./06-PingPongAI.App.md)
 - [PingPongAI.App Oyun Kuralları](./07-PingPongAI.App.Rules.md)
+- [Kural Tabanlı Ajan Yaklaşımı](./08-RuleBased.md)
