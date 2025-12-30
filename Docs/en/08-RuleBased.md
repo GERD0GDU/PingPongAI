@@ -111,8 +111,8 @@ The next step is to populate the `AIAgent` class and introduce learning behavior
 
 ## See Also
 
-- *Home Page*
-- &gt; [What AI is and is not, its relation to code](./00-WhatIsAI.md)
+- [Home Page](./README.md)
+- [What AI is and is not, its relation to code](./00-WhatIsAI.md)
 - [The concept of learning, supervised / unsupervised / reinforcement](./01-WhatIsLearning.md)
 - [Artificial neuron, input/weight/bias, simple example](./02-Neuron.md)
 - [Mini neural network, hidden layer, feedforward network](./03-NeuralNetwork.md)
