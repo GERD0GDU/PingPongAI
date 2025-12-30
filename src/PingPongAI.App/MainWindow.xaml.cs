@@ -157,11 +157,18 @@ namespace PingPongAI.App
             var deltaTime = (now - _lastUpdateTime).TotalSeconds;
             _lastUpdateTime = now;
 
+            GameState previous = (GameState)_gameSimulator.State.Clone();
+
             Decide();
 
             _gameSimulator.Update(deltaTime);
 
             Render();
+
+            RewardResult rewardResult = RewardCalculator.Calculate(previous, _gameSimulator.State);
+
+            UpdateAI(_leftPlayer!, rewardResult.Left);
+            UpdateAI(_rightPlayer!, rewardResult.Right);
         }
 
         private void Render()
@@ -178,6 +185,16 @@ namespace PingPongAI.App
             Canvas.SetTop(Paddle2, state.RightPaddle.Y);
         }
 
-        
+        private void UpdateAI(IPongAgent agent, double reward)
+        {
+            if (agent.AgentType != AgentTypes.AI)
+                return;
+
+            AIAgent ai = (AIAgent)agent;
+            double[] inputs = ai.EncodeState(_gameSimulator.State);
+            double[] target = [reward];
+
+            ai.Train(inputs, target, learningRate: 0.01);
+        }
     }
 }

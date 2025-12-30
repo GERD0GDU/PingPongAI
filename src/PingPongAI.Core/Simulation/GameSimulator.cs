@@ -7,9 +7,6 @@ namespace PingPongAI.Core.Simulation
 {
     public class GameSimulator
     {
-        private const double SPEED_FACTOR = 0.3;
-        private const double PADDLE_SPEED = 250; // piksel/saniye
-
         private Random _rnd = new Random(Environment.TickCount);
         private GameState _gameState = null;
 
@@ -65,8 +62,8 @@ namespace PingPongAI.Core.Simulation
             double dirX = fromLeft ? 1 : -1;
 
             // Initial velocity magnitude
-            double speedX = _gameState.GameArea.Width * SPEED_FACTOR;
-            double speedY = _gameState.GameArea.Height * SPEED_FACTOR * impactOffset;
+            double speedX = GameState.BALL_SPEED;
+            double speedY = GameState.BALL_SPEED * impactOffset;
 
             _gameState.Ball.Velocity = new Vec2(
                 dirX * speedX,
@@ -127,29 +124,32 @@ namespace PingPongAI.Core.Simulation
             HitInfo hit2 = Collision.RayVsRect(ray, paddle2Rect);
 
             HitInfo hit = default;
-            bool hasHit = false;
-            bool hitPaddle1 = false;
 
             if (hit1.Hit && hit2.Hit)
             {
                 hit = hit1.Time < hit2.Time ? hit1 : hit2;
-                hitPaddle1 = hit.Equals(hit1);
-                hasHit = true;
+                paddle1.HasHitBall = hit.Equals(hit1);
+                paddle2.HasHitBall = !paddle1.HasHitBall;
             }
             else if (hit1.Hit)
             {
                 hit = hit1;
-                hitPaddle1 = true;
-                hasHit = true;
+                paddle1.HasHitBall = true;
+                paddle2.HasHitBall = false;
             }
             else if (hit2.Hit)
             {
                 hit = hit2;
-                hitPaddle1 = false;
-                hasHit = true;
+                paddle1.HasHitBall = false;
+                paddle2.HasHitBall = true;
+            }
+            else
+            {
+                paddle1.HasHitBall = false;
+                paddle2.HasHitBall = false;
             }
 
-            if (hasHit)
+            if (paddle1.HasHitBall || paddle2.HasHitBall)
             {
                 Vec2 contact = prevCenter + movement * hit.Time;
                 contact += hit.Normal * 0.001;
@@ -159,7 +159,7 @@ namespace PingPongAI.Core.Simulation
                     contact.Y - radius
                 );
 
-                double paddleY = hitPaddle1 ? paddle1Rect.Y : paddle2Rect.Y;
+                double paddleY = paddle1.HasHitBall ? paddle1Rect.Y : paddle2Rect.Y;
                 double paddleHeight = paddle1Rect.Height;
 
                 double paddleCenterY = paddleY + paddleHeight / 2;
@@ -167,10 +167,10 @@ namespace PingPongAI.Core.Simulation
                 impactOffset = System.Math.Max(-1.0, System.Math.Min(1.0, impactOffset));
 
                 // Turn X completely in the opposite direction.
-                ball.Velocity.X = System.Math.Abs(ball.Velocity.X) * (hitPaddle1 ? 1 : -1);
+                ball.Velocity.X = System.Math.Abs(ball.Velocity.X) * (paddle1.HasHitBall ? 1 : -1);
 
                 // Adjust the Y speed according to the point of contact.
-                ball.Velocity.Y += impactOffset * System.Math.Abs(ball.Velocity.X) * 0.75;
+                ball.Velocity.Y += impactOffset * System.Math.Abs(ball.Velocity.Y) * 0.75;
             }
 
             if (ball.Y < 0)
@@ -201,8 +201,11 @@ namespace PingPongAI.Core.Simulation
             PaddleState paddle1 = _gameState.LeftPaddle;
             PaddleState paddle2 = _gameState.RightPaddle;
 
-            paddle1.Y += paddle1.Direction * PADDLE_SPEED * deltaTime;
-            paddle2.Y += paddle2.Direction * PADDLE_SPEED * deltaTime;
+            paddle1.Velocity = paddle1.Direction * GameState.PADDLE_SPEED;
+            paddle2.Velocity = paddle2.Direction * GameState.PADDLE_SPEED;
+
+            paddle1.Y += paddle1.Velocity * deltaTime;
+            paddle2.Y += paddle2.Velocity * deltaTime;
 
             // To avoid exceeding the canvas boundaries.
             paddle1.Y = System.Math.Max(0, System.Math.Min(_gameState.GameArea.Height - paddle1.Height, paddle1.Y));

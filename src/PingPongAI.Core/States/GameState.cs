@@ -5,6 +5,9 @@ namespace PingPongAI.Core.States
 {
     public sealed class GameState : ICloneable
     {
+        public const double BALL_SPEED = 250; // pixel/sec
+        public const double PADDLE_SPEED = 250; // pixel/sec
+
         public Rect2 GameArea = new Rect2();
         public BallState Ball { get; internal set; } = new BallState();
         public PaddleState LeftPaddle { get; internal set; } = new PaddleState();
