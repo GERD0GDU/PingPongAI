@@ -1,7 +1,8 @@
 ﻿using PingPongAI.Core.States;
+using PingPongAI.AI.Agents;
 using System;
 
-namespace PingPongAI.AI
+namespace PingPongAI.AI.Factory
 {
     public sealed class AgentFactory
     {

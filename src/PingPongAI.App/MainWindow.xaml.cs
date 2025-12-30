@@ -1,4 +1,5 @@
-﻿using PingPongAI.AI;
+﻿using PingPongAI.AI.Agents;
+using PingPongAI.AI.Factory;
 using PingPongAI.Core.Simulation;
 using PingPongAI.Core.States;
 using System.Windows;
@@ -63,49 +64,23 @@ namespace PingPongAI.App
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.W)
-            {
                 _leftPlayer?.SetInput(Direction.Up);
-                //txtPlayer1UpKey.Foreground = Brushes.White;
-                //_gameSimulator.UpdatePaddleDirection(PaddleSide.Left, Direction.Up);
-            }
             else if (e.Key == Key.S)
-            {
                 _leftPlayer?.SetInput(Direction.Down);
-                //txtPlayer1DownKey.Foreground = Brushes.White;
-                //_gameSimulator.UpdatePaddleDirection(PaddleSide.Left, Direction.Down);
-            }
 
             if (e.Key == Key.Up)
-            {
                 _rightPlayer?.SetInput(Direction.Up);
-                //txtPlayer2UpKey.Foreground = Brushes.White;
-                //_gameSimulator.UpdatePaddleDirection(PaddleSide.Right, Direction.Up);
-            }
             else if (e.Key == Key.Down)
-            {
                 _rightPlayer?.SetInput(Direction.Down);
-                //txtPlayer2DownKey.Foreground = Brushes.White;
-                //_gameSimulator.UpdatePaddleDirection(PaddleSide.Right, Direction.Down);
-            }
         }
 
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.W || e.Key == Key.S)
-            {
-                _leftPlayer?.SetInput(Direction.None);
-                //txtPlayer1UpKey.Foreground = Brushes.Gray;
-                //txtPlayer1DownKey.Foreground = Brushes.Gray;
-                //_gameSimulator.UpdatePaddleDirection(PaddleSide.Left, Direction.None);
-            }                
+                _leftPlayer?.SetInput(Direction.None);  
 
             if (e.Key == Key.Up || e.Key == Key.Down)
-            {
                 _rightPlayer?.SetInput(Direction.None);
-                //txtPlayer2UpKey.Foreground = Brushes.Gray;
-                //txtPlayer2DownKey.Foreground = Brushes.Gray;
-                //_gameSimulator.UpdatePaddleDirection(PaddleSide.Right, Direction.None);
-            }
         }
 
         private void btnStartStop_Click(object sender, RoutedEventArgs e)

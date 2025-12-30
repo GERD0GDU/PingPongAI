@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using PingPongAI.AI;
+using PingPongAI.AI.Factory;
 
 namespace PingPongAI.App
 {

@@ -1,6 +1,7 @@
-﻿using PingPongAI.Core.States;
+﻿using PingPongAI.AI.Factory;
+using PingPongAI.Core.States;
 
-namespace PingPongAI.AI
+namespace PingPongAI.AI.Agents
 {
     public sealed class RuleBasedAgent : PongAgent, IPongAgent
     {
