@@ -1,5 +1,8 @@
-﻿namespace PingPongAI.Core.Simulation
+﻿using System.Diagnostics;
+
+namespace PingPongAI.Core.Simulation
 {
+    [DebuggerDisplay(@"\{Left={Left} Right={Right}\}")]
     public sealed class RewardResult
     {
         public double Left { get; }

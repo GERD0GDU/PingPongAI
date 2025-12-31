@@ -1,14 +1,17 @@
 ﻿using PingPongAI.Core.Math;
 using System;
+using System.Diagnostics;
 
 namespace PingPongAI.Core.States
 {
+    [DebuggerDisplay(@"\{Bounds={Bounds} Direction={Direction} Velocity={Velocity} ...\}")]
     public sealed class PaddleState : ICloneable
     {
         public Rect2 Bounds;
         public int Direction;
         public double Velocity;
         public bool HasHitBall;
+        public PaddleSide Side { get; internal set; }
 
         public double X
         {
@@ -24,6 +27,8 @@ namespace PingPongAI.Core.States
 
         public double Width => Bounds.Width;
         public double Height => Bounds.Height;
+        public double Left => Bounds.X;
+        public double Top => Bounds.Y;
         public double Right => Bounds.Right;
         public double Bottom => Bounds.Bottom;
 
@@ -73,7 +78,8 @@ namespace PingPongAI.Core.States
                 Bounds = Bounds,
                 Direction = Direction,
                 Velocity = Velocity,
-                HasHitBall = HasHitBall
+                HasHitBall = HasHitBall,
+                Side = Side
             };
         }
     }

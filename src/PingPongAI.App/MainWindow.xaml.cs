@@ -1,7 +1,9 @@
 ﻿using PingPongAI.AI.Agents;
 using PingPongAI.AI.Factory;
+using PingPongAI.App.Helpers;
 using PingPongAI.Core.Simulation;
 using PingPongAI.Core.States;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,6 +17,8 @@ namespace PingPongAI.App
     /// </summary>
     public partial class MainWindow : Window
     {
+        private PowerManager? _powerManager = null;
+
         private MainViewModel _vm;
         private DispatcherTimer? _gameTimer = null;
 
@@ -27,8 +31,18 @@ namespace PingPongAI.App
         {
             InitializeComponent();
 
+            // Field olarak sakla, pencere açık olduğu sürece aktif kalsın
+            _powerManager = new();
+
             _vm = new MainViewModel();
             DataContext = _vm;
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            _powerManager?.Dispose();
+            _powerManager = null;
+            base.OnClosed(e);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

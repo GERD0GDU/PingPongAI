@@ -1,5 +1,8 @@
+using System.Diagnostics;
+
 namespace PingPongAI.Core.Math
 {
+    [DebuggerDisplay(@"\{X={X} Y={Y} Width={Width} Height={Height}\}")]
     public struct Rect2
     {
         public double X;

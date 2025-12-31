@@ -1,5 +1,8 @@
-﻿namespace PingPongAI.Core.Math
+﻿using System.Diagnostics;
+
+namespace PingPongAI.Core.Math
 {
+    [DebuggerDisplay(@"\{X={X} Y={Y}\}")]
     public struct Vec2
     {
         public double X;

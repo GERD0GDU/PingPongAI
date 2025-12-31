@@ -2,7 +2,7 @@
 using PingPongAI.AI.Neural;
 using PingPongAI.AI.Neural.Activations;
 using PingPongAI.Core.States;
-using System.Diagnostics;
+using System;
 
 namespace PingPongAI.AI.Agents
 {
@@ -13,8 +13,8 @@ namespace PingPongAI.AI.Agents
         public AIAgent(PaddleSide side)
             : base(side)
         {
-            // 6 inputs representing the current game state
-            _network = new NeuralNetwork(inputCount: 6);
+            // (n) inputs representing the current game state
+            _network = new NeuralNetwork(inputCount: 8);
 
             _network.AddLayer(8, new TanhActivation());
             _network.AddLayer(4, new TanhActivation());
@@ -28,12 +28,11 @@ namespace PingPongAI.AI.Agents
             double[] inputs = EncodeState(state);
 
             double output = _network.Compute(inputs)[0];
-            Debug.WriteLine(output);
 
-            if (output < -0.05)
+            if (output < -0.1)
                 return Direction.Up;
 
-            if (output > 0.05)
+            if (output > 0.1)
                 return Direction.Down;
 
             return Direction.None;
@@ -48,10 +47,14 @@ namespace PingPongAI.AI.Agents
             // state normalization (-1 ... +1)
             double ballX = (state.Ball.CenterX / state.GameArea.Width) * 2 - 1;
             double ballY = (state.Ball.CenterY / state.GameArea.Height) * 2 - 1;
-            double ballVelocityX = state.Ball.Velocity.X / GameState.BALL_SPEED;
-            double ballVelocityY = state.Ball.Velocity.Y / GameState.BALL_SPEED;
+            double ballVelocityX = state.Ball.Velocity.X / Consts.BALL_SPEED;
+            double ballVelocityY = state.Ball.Velocity.Y / Consts.BALL_SPEED;
             double paddleY = (paddle.CenterY / state.GameArea.Height) * 2 - 1;
-            double paddleVelocity = paddle.Velocity / GameState.PADDLE_SPEED;
+            double paddleVelocity = paddle.Velocity / Consts.PADDLE_SPEED;
+            double distanceToPaddle = (state.Ball.X - (paddle == state.LeftPaddle ? paddle.Right : paddle.X)) / state.GameArea.Width;
+            double timeToReachPaddle = Math.Abs((paddle.CenterX - state.Ball.CenterX) / state.Ball.Velocity.X);
+            double predictedBallY = state.Ball.CenterY + state.Ball.Velocity.Y * timeToReachPaddle;
+            predictedBallY = (Math.Max(0, Math.Min(state.GameArea.Height, predictedBallY)) - (state.GameArea.Height / 2)) / state.GameArea.Height;
 
             // Converts game state into a normalized input vector
             return new double[]
@@ -61,7 +64,9 @@ namespace PingPongAI.AI.Agents
                 ballVelocityX,
                 ballVelocityY,
                 paddleY,
-                paddleVelocity
+                paddleVelocity,
+                distanceToPaddle,
+                predictedBallY
             };
         }
 

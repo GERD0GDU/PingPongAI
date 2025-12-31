@@ -1,8 +1,10 @@
 ﻿using PingPongAI.Core.Math;
 using System;
+using System.Diagnostics;
 
 namespace PingPongAI.Core.States
 {
+    [DebuggerDisplay(@"\{Bounds={Bounds} Velocity={Velocity} Radius={Radius}\}")]
     public sealed class BallState : ICloneable
     {
         public Rect2 Bounds;

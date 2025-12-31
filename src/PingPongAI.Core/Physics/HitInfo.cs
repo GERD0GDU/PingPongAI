@@ -1,7 +1,9 @@
 using PingPongAI.Core.Math;
+using System.Diagnostics;
 
 namespace PingPongAI.Core.Physics
 {
+    [DebuggerDisplay(@"\{Hit={Hit} Time={Time} Normal={Normal}\}")]
     public struct HitInfo
     {
         public bool Hit;
