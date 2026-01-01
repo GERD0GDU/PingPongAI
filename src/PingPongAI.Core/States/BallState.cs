@@ -73,6 +73,11 @@ namespace PingPongAI.Core.States
             set { Bounds.Height = value; }
         }
 
+        public double Left => Bounds.X;
+        public double Top => Bounds.Y;
+        public double Right => Bounds.X + Bounds.Width;
+        public double Bottom => Bounds.Y + Bounds.Height;
+
         // ICloneable implements
         public object Clone()
         {

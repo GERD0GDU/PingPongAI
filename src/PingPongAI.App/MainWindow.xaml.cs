@@ -3,7 +3,6 @@ using PingPongAI.AI.Factory;
 using PingPongAI.App.Helpers;
 using PingPongAI.Core.Simulation;
 using PingPongAI.Core.States;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -48,8 +47,8 @@ namespace PingPongAI.App
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             GameState state = new();
-            state.GameArea.Width = GameCanvas.Width;
-            state.GameArea.Height = GameCanvas.Height;
+            state.Bounds.Width = GameCanvas.Width;
+            state.Bounds.Height = GameCanvas.Height;
             state.Ball.Width = Ball.Width;
             state.Ball.Height = Ball.Height;
             state.LeftPaddle.Bounds = new(
@@ -211,4 +210,4 @@ namespace PingPongAI.App
             ai.Train(inputs, target, learningRate: 0.01);
         }
     }
-}
+} 

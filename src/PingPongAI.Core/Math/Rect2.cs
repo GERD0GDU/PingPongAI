@@ -1,8 +1,5 @@
-using System.Diagnostics;
-
 namespace PingPongAI.Core.Math
 {
-    [DebuggerDisplay(@"\{X={X} Y={Y} Width={Width} Height={Height}\}")]
     public struct Rect2
     {
         public double X;
@@ -22,5 +19,10 @@ namespace PingPongAI.Core.Math
         public double Right => X + Width;
         public double Top => Y;
         public double Bottom => Y + Height;
+
+        public override string ToString()
+        {
+            return $"{{{nameof(X)}={X} {nameof(Y)}={Y} {nameof(Width)}={Width} {nameof(Height)}={Height}}}";
+        }
     }
 }

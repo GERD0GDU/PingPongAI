@@ -1,6 +1,7 @@
 ﻿using PingPongAI.AI.Factory;
 using PingPongAI.AI.Neural;
 using PingPongAI.AI.Neural.Activations;
+using PingPongAI.Core.Math;
 using PingPongAI.Core.States;
 using System;
 
@@ -14,7 +15,7 @@ namespace PingPongAI.AI.Agents
             : base(side)
         {
             // (n) inputs representing the current game state
-            _network = new NeuralNetwork(inputCount: 8);
+            _network = new NeuralNetwork(inputCount: 7);
 
             _network.AddLayer(8, new TanhActivation());
             _network.AddLayer(4, new TanhActivation());
@@ -29,10 +30,10 @@ namespace PingPongAI.AI.Agents
 
             double output = _network.Compute(inputs)[0];
 
-            if (output < -0.1)
+            if (output < -0.4)
                 return Direction.Up;
 
-            if (output > 0.1)
+            if (output > 0.4)
                 return Direction.Down;
 
             return Direction.None;
@@ -45,28 +46,41 @@ namespace PingPongAI.AI.Agents
                 : state.RightPaddle;
 
             // state normalization (-1 ... +1)
-            double ballX = (state.Ball.CenterX / state.GameArea.Width) * 2 - 1;
-            double ballY = (state.Ball.CenterY / state.GameArea.Height) * 2 - 1;
+            double ballX = (state.Ball.CenterX / state.Bounds.Width) * 2 - 1;
+            double relativeY = (state.Ball.CenterY - paddle.CenterY) / (state.Bounds.Height / 2);
+            relativeY = MathEx.Clamp(relativeY, -1.0, 1.0);
             double ballVelocityX = state.Ball.Velocity.X / Consts.BALL_SPEED;
             double ballVelocityY = state.Ball.Velocity.Y / Consts.BALL_SPEED;
-            double paddleY = (paddle.CenterY / state.GameArea.Height) * 2 - 1;
             double paddleVelocity = paddle.Velocity / Consts.PADDLE_SPEED;
-            double distanceToPaddle = (state.Ball.X - (paddle == state.LeftPaddle ? paddle.Right : paddle.X)) / state.GameArea.Width;
-            double timeToReachPaddle = Math.Abs((paddle.CenterX - state.Ball.CenterX) / state.Ball.Velocity.X);
-            double predictedBallY = state.Ball.CenterY + state.Ball.Velocity.Y * timeToReachPaddle;
-            predictedBallY = (Math.Max(0, Math.Min(state.GameArea.Height, predictedBallY)) - (state.GameArea.Height / 2)) / state.GameArea.Height;
+            double distanceToPaddle = (paddle.Side == PaddleSide.Left
+                    ? state.Ball.CenterX - paddle.Right
+                    : paddle.Left - state.Ball.CenterX) 
+                / state.Bounds.Width;
+            distanceToPaddle = MathEx.Clamp(distanceToPaddle, -1.0, 1.0);
+            double predictedRelativeY;
+            if (Math.Abs(ballVelocityX) < 0.1)
+            {
+                predictedRelativeY = relativeY;
+            }
+            else
+            {
+                double timeToReachPaddle = Math.Abs((paddle.CenterX - state.Ball.CenterX) / state.Ball.Velocity.X); // If state.Ball.Velocity.X gets close to zero!!!
+                double predictedBallY = state.Ball.CenterY + state.Ball.Velocity.Y * timeToReachPaddle;
+                predictedBallY = MathEx.Clamp(predictedBallY, 0, state.Bounds.Height);
+                predictedRelativeY = (predictedBallY - paddle.CenterY) / (state.Bounds.Height / 2);
+                predictedRelativeY = MathEx.Clamp(predictedRelativeY, -1.0, 1.0);
+            }
 
             // Converts game state into a normalized input vector
             return new double[]
             {
                 ballX,
-                ballY,
+                relativeY,
+                predictedRelativeY,
                 ballVelocityX,
                 ballVelocityY,
-                paddleY,
                 paddleVelocity,
-                distanceToPaddle,
-                predictedBallY
+                distanceToPaddle
             };
         }
 

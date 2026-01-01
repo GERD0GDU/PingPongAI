@@ -1,8 +1,5 @@
-﻿using System.Diagnostics;
-
-namespace PingPongAI.Core.Math
+﻿namespace PingPongAI.Core.Math
 {
-    [DebuggerDisplay(@"\{X={X} Y={Y}\}")]
     public struct Vec2
     {
         public double X;
@@ -33,6 +30,11 @@ namespace PingPongAI.Core.Math
         {
             double len = Length;
             return len > 0 ? new Vec2(X / len, Y / len) : new Vec2(0, 0);
+        }
+
+        public override string ToString()
+        {
+            return $"{{{nameof(X)}={X} {nameof(Y)}={Y}}}";
         }
     }
 }
