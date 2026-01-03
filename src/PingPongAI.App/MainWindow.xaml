@@ -53,10 +53,32 @@
             <TextBlock x:Name="txtPlayer1Score" Grid.Row="1" VerticalAlignment="Center" FontWeight="Bold" FontFamily="Consolas" FontSize="22" Foreground="Green">0</TextBlock>
 
             <Border Margin="2" Height="24" Grid.Column="1" HorizontalAlignment="Left" BorderBrush="Gray" BorderThickness="1" CornerRadius="2">
-                <TextBlock x:Name="txtPlayer1UpKey" VerticalAlignment="Center" Padding="4,0" FontFamily="Consolas" TextAlignment="Center" Foreground="Gray">W ⮝</TextBlock>
+                <TextBlock x:Name="txtPlayer1UpKey" VerticalAlignment="Center" Padding="4,0" FontFamily="Consolas" TextAlignment="Center" Foreground="Gray">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Text" Value="⮝" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SelectedItem, ElementName=chkPlayer1}" Value="Human">
+                                    <Setter Property="Text" Value="W ⮝" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
             </Border>
             <Border Margin="2" Height="24" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" BorderBrush="Gray" BorderThickness="1" CornerRadius="2">
-                <TextBlock x:Name="txtPlayer1DownKey" VerticalAlignment="Center" Padding="4,0" FontFamily="Consolas" TextAlignment="Center" Foreground="Gray">S ⮟</TextBlock>
+                <TextBlock x:Name="txtPlayer1DownKey" VerticalAlignment="Center" Padding="4,0" FontFamily="Consolas" TextAlignment="Center" Foreground="Gray">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Text" Value="⮟" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SelectedItem, ElementName=chkPlayer1}" Value="Human">
+                                    <Setter Property="Text" Value="S ⮟" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
             </Border>
 
             <Button x:Name="btnStartStop" Grid.Column="2" Click="btnStartStop_Click">

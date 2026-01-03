@@ -20,7 +20,7 @@ namespace PingPongAI.App
             }
         }
 
-        private AgentTypes _leftAgentType = AgentTypes.RuleBased;
+        private AgentTypes _leftAgentType = AgentTypes.AI;
         public AgentTypes LeftAgentType
         {
             get => _leftAgentType;
@@ -31,7 +31,7 @@ namespace PingPongAI.App
             }
         }
 
-        private AgentTypes _rightAgentType = AgentTypes.Human;
+        private AgentTypes _rightAgentType = AgentTypes.AI;
         public AgentTypes RightAgentType
         {
             get => _rightAgentType;
