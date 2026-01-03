@@ -178,7 +178,7 @@ namespace PingPongAI.App
 
             Render();
 
-            RewardResult rewardResult = RewardCalculator.Calculate(previous, _gameSimulator.State);
+            ResultPair rewardResult = TargetCalculator.Calculate(previous, _gameSimulator.State);
 
             UpdateAI(_leftPlayer!, rewardResult.Left);
             UpdateAI(_rightPlayer!, rewardResult.Right);
@@ -198,16 +198,15 @@ namespace PingPongAI.App
             Canvas.SetTop(Paddle2, state.RightPaddle.Y);
         }
 
-        private void UpdateAI(IPongAgent agent, double reward)
+        private void UpdateAI(IPongAgent agent, double expected)
         {
-            if (agent.AgentType != AgentTypes.AI)
+            if (agent.AgentType != AgentTypes.AI || !_vm.IsTrainingEnabled)
                 return;
 
             AIAgent ai = (AIAgent)agent;
             double[] inputs = ai.EncodeState(_gameSimulator.State);
-            double[] target = [reward];
 
-            ai.Train(inputs, target, learningRate: 0.01);
+            ai.Train(inputs, [expected], learningRate: 0.01);
         }
     }
 } 

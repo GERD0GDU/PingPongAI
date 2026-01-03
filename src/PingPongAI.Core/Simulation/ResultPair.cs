@@ -3,19 +3,19 @@
 namespace PingPongAI.Core.Simulation
 {
     [DebuggerDisplay(@"\{Left={Left} Right={Right}\}")]
-    public sealed class RewardResult
+    public sealed class ResultPair
     {
         public double Left { get; }
         public double Right { get; }
 
-        public RewardResult(double left, double right)
+        public ResultPair(double left, double right)
         {
             Left = left;
             Right = right;
         }
 
-        public static RewardResult Zero =>
-            new RewardResult(0.0, 0.0);
+        public static ResultPair Zero =>
+            new ResultPair(0.0, 0.0);
 
         public override string ToString()
         {

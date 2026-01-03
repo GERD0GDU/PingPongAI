@@ -42,7 +42,7 @@ namespace PingPongAI.App
             }
         }
 
-        private bool _isTrainingEnabled = false;
+        private bool _isTrainingEnabled = true;
         public bool IsTrainingEnabled
         {
             get => _isTrainingEnabled;
