@@ -24,6 +24,71 @@ Therefore, AIAgent:
 - Optimizes its behavior according to the expectation provided to it
 - Differs from reinforcement learning in that it tries to produce an externally calculated expected output instead of receiving reward or punishment signals based on its own output
 
+## Normalized Input Vector
+
+`AIAgent` does not perceive the game state using raw values, but through a **normalized input vector**.
+This approach ensures that the learning process is stable and scale-independent.
+
+All inputs are converted into the `-1.0 ... +1.0` range before being fed into the agent.
+
+This process is performed by the `EncodeState(GameState state)` method and can be customized for different types of AI agents.
+
+### Used Inputs
+
+The following values are derived from the game state, normalized (`-1 ... +1`), and combined to form the input vector for `AIAgent`:
+
+- **ballX**
+  - The horizontal position of the ball within the game field
+  - Normalized relative to the game field width
+  - -1: left boundary
+  - +1: right boundary
+
+- **relativeY**
+  - The vertical position of the ball relative to the paddle center
+  - The offset from the paddle center is calculated and normalized by the paddle height
+  - -1: above the paddle
+  - +1: below the paddle
+
+- **predictedRelativeY**
+  - The expected vertical position of the ball when it reaches the paddle alignment, based on its current velocity vector
+  - Estimated using a simple linear motion assumption
+  - Normalized relative to the paddle center
+
+- **ballVelocityX**
+  - The horizontal velocity component of the ball
+  - Normalized by dividing by the maximum ball speed
+  - Negative: moving left
+  - Positive: moving right
+
+- **ballVelocityY**
+  - The vertical velocity component of the ball
+  - Normalized by dividing by the maximum ball speed
+  - Negative: moving upward
+  - Positive: moving downward
+
+- **paddleVelocity**
+  - The current vertical movement speed of the paddle
+  - Normalized relative to the maximum paddle speed
+  - Negative: moving upward
+  - Positive: moving downward
+
+- **distanceToPaddle**
+  - The horizontal distance between the ball and the paddle (relative to the paddle)
+  - Normalized relative to the game field width
+  - As the ball approaches the paddle, the value approaches zero (0 ... +1)
+  - Represents the proximity between the ball and the paddle
+
+### Purpose of the Input Vector
+
+This normalized input vector:
+
+- Prevents the agent from depending on absolute coordinates
+- Enables the same behavior to be learned across different screen sizes
+- Makes the learning process more stable
+- Provides a common state representation for future reinforcement learning agents
+
+With this structure, `AIAgent` perceives the game in a numerical and scale-independent manner.
+
 ## Calculation of the Expected Behavior
 
 The expected paddle movement is calculated by the `PingPongAI.Core.Simulation.TargetCalculator` class.

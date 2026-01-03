@@ -24,6 +24,71 @@ Bu nedenle AIAgent:
 - Davranışlarını, kendisine söylenen beklentiye göre optimize eder
 - Pekiştirmeli öğrenmeden farkı, kendi çıktısına göre ödül veya ceza sinyali almak yerine, dışarıdan hesaplanan beklenen çıktıyı üretmeye çalışmasıdır
 
+## Normalize Edilmiş Girdi Vektörü
+
+`AIAgent`, oyun durumunu ham değerler ile değil, **normalize edilmiş bir girdi vektörü** ile algılar.
+Bu yaklaşım, öğrenme sürecinin kararlı ve ölçekten bağımsız olmasını sağlar.
+
+Tüm girdiler `-1.0 ... +1.0` aralığına dönüştürülerek ajan içine verilir.
+
+Bu işlem, `EncodeState(GameState state)` yöntemi ile gerçekleştirilir. Farklı türdeki AI ajanlar için özelleştirilebilir.
+
+### Kullanılan Girdiler
+
+Aşağıdaki değerler, oyun durumundan türetilerek normalize (`-1 ... +1`) edilir ve `AIAgent` için giriş vektörünü oluşturur:
+
+- **ballX**
+  - Topun oyun alanındaki yatay konumu
+  - Oyun alanı genişliğine göre normalize edilmiştir
+  - -1: sol sınır
+  - +1: sağ sınır
+
+- **relativeY**
+  - Topun paddle merkezine göre dikey konumu
+  - Paddle merkezine olan fark hesaplanır ve paddle yüksekliğine göre normalize edilir
+  - -1: paddle'ın üstünde
+  - +1: paddle'ın altında
+
+- **predictedRelativeY**
+  - Topun mevcut hız vektörüne göre paddle hizasına ulaştığında, olması beklenen dikey konumu
+  - Basit doğrusal hareket varsayımı ile tahmin edilir
+  - Paddle merkezine göre normalize edilir
+
+- **ballVelocityX**
+  - Topun yatay hız bileşeni
+  - Maksimum top hızına bölünerek normalize edilmiştir
+  - Negatif: sola doğru
+  - Pozitif: sağa doğru
+
+- **ballVelocityY**
+  - Topun dikey hız bileşeni
+  - Maksimum top hızına bölünerek normalize edilmiştir
+  - Negatif: yukarı
+  - Pozitif: aşağı
+
+- **paddleVelocity**
+  - Paddle'ın mevcut dikey hareket hızı
+  - Maksimum paddle hızına göre normalize edilmiştir
+  - Negatif: yukarı hareket
+  - Pozitif: aşağı hareket
+
+- **distanceToPaddle**
+  - Top ile paddle arasındaki yatay mesafe (paddle göre)
+  - Oyun alanı genişliğine göre normalize edilir
+  - Top paddle'a yaklaştıkça değer sıfıra yaklaşır (0 ... +1)
+  - Top ile paddle arasındaki yakınlık değeridir
+
+### Girdi Vektörünün Amacı
+
+Bu normalize edilmiş girdi vektörü:
+
+- Ajanın mutlak koordinatlara bağımlı olmasını engeller
+- Farklı ekran boyutlarında aynı davranışın öğrenilmesini sağlar
+- Öğrenme sürecini daha kararlı hale getirir
+- İleride eklenecek pekiştirmeli öğrenme ajanları için ortak bir state temsili sunar
+
+Bu yapı sayesinde `AIAgent`, oyunu sayısal ve ölçekten bağımsız bir biçimde algılar.
+
 ## Beklenen Davranışın Hesaplanması
 
 Beklenen paddle hareketi, `PingPongAI.Core.Simulation.TargetCalculator` sınıfı tarafından hesaplanır.

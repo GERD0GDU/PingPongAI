@@ -47,16 +47,15 @@ namespace PingPongAI.AI.Agents
 
             // state normalization (-1 ... +1)
             double ballX = (state.Ball.CenterX / state.Bounds.Width) * 2 - 1;
-            double relativeY = (state.Ball.CenterY - paddle.CenterY) / (state.Bounds.Height / 2);
-            relativeY = MathEx.Clamp(relativeY, -1.0, 1.0);
-            double ballVelocityX = state.Ball.Velocity.X / Consts.BALL_SPEED;
-            double ballVelocityY = state.Ball.Velocity.Y / Consts.BALL_SPEED;
-            double paddleVelocity = paddle.Velocity / Consts.PADDLE_SPEED;
+            double relativeY = MathEx.Clamp((state.Ball.CenterY - paddle.CenterY) / (paddle.Height / 2), -1, +1);
+            double ballVelocityX = MathEx.Clamp(state.Ball.Velocity.X / Consts.BALL_SPEED, -1, +1);
+            double ballVelocityY = MathEx.Clamp(state.Ball.Velocity.Y / Consts.BALL_SPEED_MAX_Y, -1, +1);
+            double paddleVelocity = MathEx.Clamp(paddle.Velocity / Consts.PADDLE_SPEED, -1, +1);
             double distanceToPaddle = (paddle.Side == PaddleSide.Left
                     ? state.Ball.CenterX - paddle.Right
                     : paddle.Left - state.Ball.CenterX) 
                 / state.Bounds.Width;
-            distanceToPaddle = MathEx.Clamp(distanceToPaddle, -1.0, 1.0);
+            distanceToPaddle = MathEx.Clamp(distanceToPaddle, 0.0, 1.0);
             double predictedRelativeY;
             if (Math.Abs(ballVelocityX) < 0.1)
             {
