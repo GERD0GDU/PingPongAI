@@ -150,3 +150,4 @@ In the next document, we will move on to the concept of
 - [PingPongAI.App Rationale](./06-PingPongAI.App.md)
 - [PingPongAI.App Game Rules](./07-PingPongAI.App.Rules.md)
 - [Rule-Based Agent Approach](./08-RuleBased.md)
+- [AIAgent - Supervised Control Approach](./09-AIAgent-SupervisedControl.md)

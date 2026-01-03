@@ -12,6 +12,8 @@ AI-controlled table tennis game - train your own neural network from scratch usi
 
 [Türkçe](../../README.md)
 
+> This document was translated from Turkish by AI.
+
 ## Why Does This Project Exist?
 
 This project was not created to build a product, but to understand a concept.
@@ -133,3 +135,4 @@ In the next document, we will look for an answer to the question [**What is AI**
 - [PingPongAI.App Rationale](./06-PingPongAI.App.md)
 - [PingPongAI.App Game Rules](./07-PingPongAI.App.Rules.md)
 - [Rule-Based Agent Approach](./08-RuleBased.md)
+- [AIAgent - Supervised Control Approach](./09-AIAgent-SupervisedControl.md)

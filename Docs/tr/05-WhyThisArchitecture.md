@@ -145,3 +145,4 @@ Bir sonraki dokümanda, WPF masaüstü olarak geliştirilen [**PingPongAI.App**]
 - &gt; [PingPongAI.App Gerekçeleri](./06-PingPongAI.App.md)
 - [PingPongAI.App Oyun Kuralları](./07-PingPongAI.App.Rules.md)
 - [Kural Tabanlı Ajan Yaklaşımı](./08-RuleBased.md)
+- [AIAgent - Supervised Control Yaklaşımı](./09-AIAgent-SupervisedControl.md)

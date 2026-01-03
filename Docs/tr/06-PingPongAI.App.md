@@ -139,3 +139,4 @@ Bir sonraki bölümde [Ping-pong oyun kuralları](./07-PingPongAI.App.Rules.md) 
 - *PingPongAI.App Gerekçeleri*
 - &gt; [PingPongAI.App Oyun Kuralları](./07-PingPongAI.App.Rules.md)
 - [Kural Tabanlı Ajan Yaklaşımı](./08-RuleBased.md)
+- [AIAgent - Supervised Control Yaklaşımı](./09-AIAgent-SupervisedControl.md)

@@ -121,3 +121,4 @@ Bir sonraki adımda, `AIAgent` sınıfının doldurulması ve öğrenen davranı
 - [PingPongAI.App Gerekçeleri](./06-PingPongAI.App.md)
 - [PingPongAI.App Oyun Kuralları](./07-PingPongAI.App.Rules.md)
 - *Kural Tabanlı Ajan Yaklaşımı*
+- &gt; [AIAgent - Supervised Control Yaklaşımı](./09-AIAgent-SupervisedControl.md)

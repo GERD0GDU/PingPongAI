@@ -107,7 +107,7 @@ Thanks to this structure:
 
 You can access the code corresponding to the changes and updates up to this point via the [v1.1-rule-based](https://github.com/GERD0GDU/PingPongAI/tree/v1.1-rule-based) tag.
 
-The next step is to populate the `AIAgent` class and introduce learning behaviors into the system in a controlled manner.
+[The next step](./09-AIAgent-SupervisedControl.md) is to populate the `AIAgent` class and introduce learning behaviors into the system in a controlled manner.
 
 ## See Also
 
@@ -121,3 +121,4 @@ The next step is to populate the `AIAgent` class and introduce learning behavior
 - [PingPongAI.App Rationale](./06-PingPongAI.App.md)
 - [PingPongAI.App Game Rules](./07-PingPongAI.App.Rules.md)
 - *Rule-Based Agent Approach*
+- &gt; [AIAgent - Supervised Control Approach](./09-AIAgent-SupervisedControl.md)

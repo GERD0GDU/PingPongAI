@@ -114,3 +114,4 @@ The next topic will explain the [Rule-Based Agent Approach](./08-RuleBased.md) s
 - [PingPongAI.App Rationale](./06-PingPongAI.App.md)
 - *PingPongAI.App Game Rules*
 - &gt; [Rule-Based Agent Approach](./08-RuleBased.md)
+- [AIAgent - Supervised Control Approach](./09-AIAgent-SupervisedControl.md)

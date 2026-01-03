@@ -114,3 +114,4 @@ Bir sonraki konuda [Kural Tabanlı Ajan Yaklaşımı](./08-RuleBased.md) yapıs�
 - [PingPongAI.App Gerekçeleri](./06-PingPongAI.App.md)
 - *PingPongAI.App Oyun Kuralları*
 - &gt; [Kural Tabanlı Ajan Yaklaşımı](./08-RuleBased.md)
+- [AIAgent - Supervised Control Yaklaşımı](./09-AIAgent-SupervisedControl.md)

@@ -137,3 +137,4 @@ Sonraki dokümanda, [**AI nedir**](./Docs/tr/00-WhatIsAI.md) sorusuna yanıt ara
 - [PingPongAI.App Gerekçeleri](./Docs/tr/06-PingPongAI.App.md)
 - [PingPongAI.App Oyun Kuralları](./Docs/tr/07-PingPongAI.App.Rules.md)
 - [Kural Tabanlı Ajan Yaklaşımı](./Docs/tr/08-RuleBased.md)
+- [AIAgent - Supervised Control Yaklaşımı](./Docs/tr/09-AIAgent-SupervisedControl.md)

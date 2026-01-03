@@ -202,3 +202,4 @@ In the next document, we will examine how the [**reward and punishment**](./04-R
 - [PingPongAI.App Rationale](./06-PingPongAI.App.md)
 - [PingPongAI.App Game Rules](./07-PingPongAI.App.Rules.md)
 - [Rule-Based Agent Approach](./08-RuleBased.md)
+- [AIAgent - Supervised Control Approach](./09-AIAgent-SupervisedControl.md)
