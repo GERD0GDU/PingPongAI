@@ -3,7 +3,6 @@ using PingPongAI.AI.Neural;
 using PingPongAI.AI.Neural.Activations;
 using PingPongAI.Core.Math;
 using PingPongAI.Core.States;
-using System;
 
 namespace PingPongAI.AI.Agents
 {
@@ -15,10 +14,10 @@ namespace PingPongAI.AI.Agents
             : base(side)
         {
             // (n) inputs representing the current game state
-            _network = new NeuralNetwork(inputCount: 9);
+            _network = new NeuralNetwork(inputCount: 6);
 
-            _network.AddLayer(16, new TanhActivation());
-            _network.AddLayer(16, new TanhActivation());
+            _network.AddLayer(8, new TanhActivation());
+            _network.AddLayer(4, new TanhActivation());
             _network.AddLayer(1, new TanhActivation());
         }
 
@@ -56,37 +55,16 @@ namespace PingPongAI.AI.Agents
                     : paddle.Left - state.Ball.CenterX) 
                 / state.Bounds.Width;
             distanceToPaddle = MathEx.Clamp(distanceToPaddle, 0, 1);
-            double topProximity = state.Ball.Y / (state.Bounds.Height / 2);
-            double bottomProximity = (state.Bounds.Height - state.Ball.Y) / (state.Bounds.Height / 2);
-            topProximity = MathEx.Clamp(topProximity, 0, 1);
-            bottomProximity = MathEx.Clamp(bottomProximity, 0, 1);
-
-            double predictedRelativeY;
-            if (Math.Abs(ballVelocityX) < 0.1)
-            {
-                predictedRelativeY = relativeY;
-            }
-            else
-            {
-                double timeToReachPaddle = Math.Abs((paddle.CenterX - state.Ball.CenterX) / state.Ball.Velocity.X); // If state.Ball.Velocity.X gets close to zero!!!
-                double predictedBallY = state.Ball.CenterY + state.Ball.Velocity.Y * timeToReachPaddle;
-                predictedBallY = MathEx.Clamp(predictedBallY, 0, state.Bounds.Height);
-                predictedRelativeY = (predictedBallY - paddle.CenterY) / (state.Bounds.Height / 2);
-                predictedRelativeY = MathEx.Clamp(predictedRelativeY, -1.0, 1.0);
-            }
 
             // Converts game state into a normalized input vector
             return new double[]
             {
                 ballX,
                 relativeY,
-                predictedRelativeY,
                 ballVelocityX,
                 ballVelocityY,
                 paddleVelocity,
-                distanceToPaddle,
-                topProximity,
-                bottomProximity
+                distanceToPaddle
             };
         }
 
