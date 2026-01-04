@@ -180,12 +180,12 @@ namespace PingPongAI.Core.Simulation
             // Duvar çarpışmaları
             if (ball.Y < 0)
             {
-                ball.Y = 0;
+                ball.Y *= -1;
                 ball.Velocity.Y *= -1;
             }
             else if (ball.Y > maxY)
             {
-                ball.Y = maxY;
+                ball.Y = 2 * maxY - ball.Y;
                 ball.Velocity.Y *= -1;
             }
 

@@ -1,4 +1,5 @@
 using PingPongAI.Core.Math;
+using PingPongAI.Core.States;
 
 namespace PingPongAI.Core.Physics
 {
@@ -50,6 +51,32 @@ namespace PingPongAI.Core.Physics
                 hit.Normal = new Vec2(0, invDir.Y < 0 ? 1 : -1);
 
             return hit;
+        }
+
+        public static double PredictBallY(GameState state)
+        {
+            double x = state.Ball.X;
+            double y = state.Ball.Y;
+            double vx = state.Ball.Velocity.X;
+            double vy = state.Ball.Velocity.Y;
+            double xtarget = state.Ball.Velocity.X < 0
+                ? state.LeftPaddle.X
+                : state.RightPaddle.X - state.Ball.Radius;
+            double height = state.Bounds.Height - state.Ball.Height;
+
+            double t = (xtarget - x) / vx;
+            double yRaw = y + vy * t;
+
+            double period = 2 * height;
+
+            double yMod = yRaw % period;
+            if (yMod < 0)
+                yMod += period;
+
+            if (yMod <= height)
+                return yMod;
+
+            return period - yMod;
         }
     }
 }
