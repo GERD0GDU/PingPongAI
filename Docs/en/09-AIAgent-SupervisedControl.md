@@ -45,14 +45,9 @@ The following values are derived from the game state, normalized (`-1 ... +1`), 
 
 - **relativeY**
   - The vertical position of the ball relative to the paddle center
-  - The offset from the paddle center is calculated and normalized by the paddle height
+  - The offset from the paddle center is calculated and normalized by the game field height
   - -1: above the paddle
   - +1: below the paddle
-
-- **predictedRelativeY**
-  - The expected vertical position of the ball when it reaches the paddle alignment, based on its current velocity vector
-  - Estimated using a simple linear motion assumption
-  - Normalized relative to the paddle center
 
 - **ballVelocityX**
   - The horizontal velocity component of the ball
@@ -96,7 +91,8 @@ The expected paddle movement is calculated by the `PingPongAI.Core.Simulation.Ta
 During this calculation, the following game state information is used:
 
 - The horizontal direction of the ball relative to the paddle (approaching or moving away)
-- The normalized vertical (Y) position of the ball relative to the paddle
+- The predicted vertical position of the ball when it reaches the paddle alignment
+- The normalized offset of that predicted position relative to the paddle center
 
 The output of `TargetCalculator` represents the following:
 
@@ -106,6 +102,7 @@ This value serves as a **teacher signal** for AIAgent.
 
 ```csharp
 using PingPongAI.Core.Math;
+using PingPongAI.Core.Physics;
 using PingPongAI.Core.States;
 
 namespace PingPongAI.Core.Simulation
@@ -116,10 +113,12 @@ namespace PingPongAI.Core.Simulation
             GameState previous,
             GameState current)
         {
-            double leftReward = ComputeExpectedForPaddle(current, current.LeftPaddle);
-            double rightReward = ComputeExpectedForPaddle(current, current.RightPaddle);
+            // The teacher signal is computed from the observed (pre-update)
+            // state so it matches the input the agent decided on.
+            double left = ComputeExpectedForPaddle(previous, previous.LeftPaddle);
+            double right = ComputeExpectedForPaddle(previous, previous.RightPaddle);
 
-            return new ResultPair(leftReward, rightReward);
+            return new ResultPair(left, right);
         }
 
         private static double ComputeExpectedForPaddle(GameState state, PaddleState paddle)
@@ -130,7 +129,10 @@ namespace PingPongAI.Core.Simulation
                 return 0.0;
 
             double expected = 0.0;
-            double relativeY = (state.Ball.CenterY - paddle.CenterY) / (paddle.Height / 2);
+            double predictBallCenterY = Collision.PredictBallY(state) + state.Ball.Radius;
+            double relativeY = (predictBallCenterY - paddle.CenterY) / (paddle.Height / 2);
+            if (System.Math.Abs(relativeY) < 1.0)
+                relativeY *= 0.5;
             relativeY = MathEx.Clamp(relativeY, -1.0, 1.0);
 
             expected += relativeY;
@@ -255,5 +257,5 @@ In the next document, the agent architecture that learns from the consequences o
 - [Hassabis approach, self-play, modular architecture](./05-WhyThisArchitecture.md)
 - [PingPongAI.App Rationale](./06-PingPongAI.App.md)
 - [PingPongAI.App Game Rules](./07-PingPongAI.App.Rules.md)
-- [Rule-Based Agent Approach](./09-AIAgent-SupervisedControl.md)
+- [Rule-Based Agent Approach](./08-RuleBased.md)
 - *AIAgent - Supervised Control Approach*

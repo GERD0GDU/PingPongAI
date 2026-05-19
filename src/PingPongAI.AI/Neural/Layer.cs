@@ -64,7 +64,7 @@ namespace PingPongAI.AI.Neural
 
             if (expectedOutputs.Length != _neurons.Count)
                 throw new ArgumentOutOfRangeException(nameof(expectedOutputs),
-                    $"Expected outputs vector length ({inputs.Length}) does not match neurons count ({_neurons.Count}).");
+                    $"Expected outputs vector length ({expectedOutputs.Length}) does not match neurons count ({_neurons.Count}).");
 
             if (learningRate <= 0)
                 throw new ArgumentOutOfRangeException(nameof(learningRate),
