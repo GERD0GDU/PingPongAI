@@ -45,14 +45,9 @@ Aşağıdaki değerler, oyun durumundan türetilerek normalize (`-1 ... +1`) edi
 
 - **relativeY**
   - Topun paddle merkezine göre dikey konumu
-  - Paddle merkezine olan fark hesaplanır ve paddle yüksekliğine göre normalize edilir
+  - Paddle merkezine olan fark hesaplanır ve oyun alanı yüksekliğine göre normalize edilir
   - -1: paddle'ın üstünde
   - +1: paddle'ın altında
-
-- **predictedRelativeY**
-  - Topun mevcut hız vektörüne göre paddle hizasına ulaştığında, olması beklenen dikey konumu
-  - Basit doğrusal hareket varsayımı ile tahmin edilir
-  - Paddle merkezine göre normalize edilir
 
 - **ballVelocityX**
   - Topun yatay hız bileşeni
@@ -96,7 +91,8 @@ Beklenen paddle hareketi, `PingPongAI.Core.Simulation.TargetCalculator` sınıf�
 Bu hesaplama sırasında:
 
 - Topun paddle'a göre yatay yönü (yaklaşıyor mu - uzaklaşıyor mu)
-- Topun paddle'a göre normalize edilmiş dikey (Y) konumu
+- Topun, paddle hizasına ulaştığında tahmin edilen (predicted) dikey konumu
+- Bu tahmini konumun paddle merkezine göre normalize edilmiş farkı
 
 gibi oyun durumuna ait bilgiler kullanılır.
 
@@ -108,6 +104,7 @@ Bu değer, AIAgent için bir **öğretmen sinyali** görevi görür.
 
 ```csharp
 using PingPongAI.Core.Math;
+using PingPongAI.Core.Physics;
 using PingPongAI.Core.States;
 
 namespace PingPongAI.Core.Simulation
@@ -118,10 +115,12 @@ namespace PingPongAI.Core.Simulation
             GameState previous,
             GameState current)
         {
-            double leftReward = ComputeExpectedForPaddle(current, current.LeftPaddle);
-            double rightReward = ComputeExpectedForPaddle(current, current.RightPaddle);
+            // Öğretmen sinyali, ajanın karar verdiği girdiyle eşleşmesi için
+            // gözlemlenen (güncelleme öncesi) durumdan hesaplanır.
+            double left = ComputeExpectedForPaddle(previous, previous.LeftPaddle);
+            double right = ComputeExpectedForPaddle(previous, previous.RightPaddle);
 
-            return new ResultPair(leftReward, rightReward);
+            return new ResultPair(left, right);
         }
 
         private static double ComputeExpectedForPaddle(GameState state, PaddleState paddle)
@@ -132,7 +131,10 @@ namespace PingPongAI.Core.Simulation
                 return 0.0;
 
             double expected = 0.0;
-            double relativeY = (state.Ball.CenterY - paddle.CenterY) / (paddle.Height / 2);
+            double predictBallCenterY = Collision.PredictBallY(state) + state.Ball.Radius;
+            double relativeY = (predictBallCenterY - paddle.CenterY) / (paddle.Height / 2);
+            if (System.Math.Abs(relativeY) < 1.0)
+                relativeY *= 0.5;
             relativeY = MathEx.Clamp(relativeY, -1.0, 1.0);
 
             expected += relativeY;

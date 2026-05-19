@@ -59,9 +59,11 @@ namespace PingPongAI.Core.Physics
             double y = state.Ball.Y;
             double vx = state.Ball.Velocity.X;
             double vy = state.Ball.Velocity.Y;
+            // Ball.X is the top-left corner, so the target must be expressed
+            // in the same coordinate: the ball's left edge at the moment of contact.
             double xtarget = state.Ball.Velocity.X < 0
-                ? state.LeftPaddle.X
-                : state.RightPaddle.X - state.Ball.Radius;
+                ? state.LeftPaddle.Right
+                : state.RightPaddle.X - state.Ball.Width;
             double height = state.Bounds.Height - state.Ball.Height;
 
             double t = (xtarget - x) / vx;

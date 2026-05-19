@@ -11,10 +11,12 @@ namespace PingPongAI.Core.Simulation
             GameState previous,
             GameState current)
         {
-            double leftReward = ComputeExpectedForPaddle(current, current.LeftPaddle);
-            double rightReward = ComputeExpectedForPaddle(current, current.RightPaddle);
+            // The teacher signal is computed from the observed (pre-update)
+            // state so it matches the input the agent decided on.
+            double left = ComputeExpectedForPaddle(previous, previous.LeftPaddle);
+            double right = ComputeExpectedForPaddle(previous, previous.RightPaddle);
 
-            return new ResultPair(leftReward, rightReward);
+            return new ResultPair(left, right);
         }
 
         private static double ComputeExpectedForPaddle(GameState state, PaddleState paddle)
