@@ -98,5 +98,85 @@ namespace PingPongAI.AI.Neural
 
             return errors;
         }
+
+        // REINFORCE update. The network's output is treated as policy logits,
+        // softmax is applied here, and the gradient pushes the chosen action's
+        // log-probability up (or down) in proportion to `advantage`.
+        // The last layer must use IdentityActivation: the derivative-of-output
+        // factor inside TrainFromOutput is the right shape only when the final
+        // activation is linear.
+        public double[] TrainPolicyGradient(double[] inputs, int actionIndex, double advantage, double learningRate)
+        {
+#if DEBUG
+            if (inputs == null)
+                throw new ArgumentNullException(nameof(inputs));
+
+            if (_layers.Count == 0)
+                throw new InvalidOperationException("Network has no layers.");
+
+            if (learningRate <= 0)
+                throw new ArgumentOutOfRangeException(nameof(learningRate),
+                    $"'{learningRate}' must be greater than 0.");
+#endif
+            double[] logits = Compute(inputs);
+
+#if DEBUG
+            if (actionIndex < 0 || actionIndex >= logits.Length)
+                throw new ArgumentOutOfRangeException(nameof(actionIndex),
+                    $"'{actionIndex}' is out of range for {logits.Length} output(s).");
+#endif
+            double[] probs = Softmax(logits);
+
+            // ∂(-G · log π(a|s))/∂logit_i = G · (1_{i=a} − π_i)
+            // The existing backprop adds `learningRate · error · input` to weights,
+            // so passing this expression as the output-layer error matches the
+            // sign convention used by Train(...).
+            double[] errors = new double[logits.Length];
+            for (int i = 0; i < logits.Length; i++)
+            {
+                double oneHot = i == actionIndex ? 1.0 : 0.0;
+                errors[i] = advantage * (oneHot - probs[i]);
+            }
+
+            for (int i = _layers.Count - 1; i >= 0; i--)
+            {
+                errors = _layers[i].TrainFromOutput(errors, learningRate);
+            }
+
+            return errors;
+        }
+
+        public static double[] Softmax(double[] logits)
+        {
+#if DEBUG
+            if (logits == null)
+                throw new ArgumentNullException(nameof(logits));
+
+            if (logits.Length == 0)
+                throw new ArgumentOutOfRangeException(nameof(logits),
+                    "Logits vector must contain at least one element.");
+#endif
+            // Subtract max for numerical stability.
+            double max = logits[0];
+            for (int i = 1; i < logits.Length; i++)
+            {
+                if (logits[i] > max) max = logits[i];
+            }
+
+            double[] result = new double[logits.Length];
+            double sum = 0.0;
+            for (int i = 0; i < logits.Length; i++)
+            {
+                result[i] = Math.Exp(logits[i] - max);
+                sum += result[i];
+            }
+
+            for (int i = 0; i < logits.Length; i++)
+            {
+                result[i] /= sum;
+            }
+
+            return result;
+        }
     }
 }
