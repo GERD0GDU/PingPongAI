@@ -1,5 +1,6 @@
 ﻿using PingPongAI.AI.Agents;
 using PingPongAI.AI.Factory;
+using PingPongAI.AI.Neural;
 using PingPongAI.App.Helpers;
 using PingPongAI.Core.Simulation;
 using PingPongAI.Core.States;
@@ -26,6 +27,8 @@ namespace PingPongAI.App
         private IPongAgent? _leftPlayer = null;
         private IPongAgent? _rightPlayer = null;
 
+        private readonly string _weightsDir;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -35,10 +38,15 @@ namespace PingPongAI.App
 
             _vm = new MainViewModel();
             DataContext = _vm;
+
+            _weightsDir = ResolveWeightsDir();
         }
 
         protected override void OnClosed(EventArgs e)
         {
+            _gameTimer?.Stop();
+            SaveRLWeights();
+
             _powerManager?.Dispose();
             _powerManager = null;
             base.OnClosed(e);
@@ -106,8 +114,8 @@ namespace PingPongAI.App
 
                 _gameSimulator.Reset();
 
-                _leftPlayer = AgentFactory.CreateAgent(_vm.LeftAgentType, PaddleSide.Left);
-                _rightPlayer = AgentFactory.CreateAgent(_vm.RightAgentType, PaddleSide.Right);
+                _leftPlayer = CreatePlayer(_vm.LeftAgentType, PaddleSide.Left);
+                _rightPlayer = CreatePlayer(_vm.RightAgentType, PaddleSide.Right);
 
                 _lastUpdateTime = DateTime.Now;
                 _gameTimer?.Start();
@@ -116,6 +124,8 @@ namespace PingPongAI.App
             {
                 _vm.IsRunning = false;
                 _gameTimer?.Stop();
+
+                SaveRLWeights();
 
                 _leftPlayer = null;
                 _rightPlayer = null;
@@ -182,6 +192,9 @@ namespace PingPongAI.App
 
             UpdateAI(_leftPlayer!, previous, target.Left);
             UpdateAI(_rightPlayer!, previous, target.Right);
+
+            UpdateRL(_leftPlayer!, previous, _gameSimulator.State);
+            UpdateRL(_rightPlayer!, previous, _gameSimulator.State);
         }
 
         private void Render()
@@ -211,5 +224,116 @@ namespace PingPongAI.App
 
             ai.Train(inputs, [expected], learningRate: 0.01);
         }
+
+        private void UpdateRL(IPongAgent agent, GameState previousState, GameState currentState)
+        {
+            if (agent.AgentType != AgentTypes.AI_Reinforcement)
+                return;
+
+            AIReinforcementAgent rl = (AIReinforcementAgent)agent;
+            rl.IsTrainingEnabled = _vm.IsTrainingEnabled;
+
+            PaddleState paddle = rl.Side == PaddleSide.Left
+                ? currentState.LeftPaddle
+                : currentState.RightPaddle;
+
+            // Step reward: +1 every frame the paddle hit the ball.
+            if (paddle.HasHitBall)
+                rl.RegisterReward(+1.0);
+
+            // Ralli end: score changed between the snapshot and the current state.
+            bool leftScored = currentState.LeftScore > previousState.LeftScore;
+            bool rightScored = currentState.RightScore > previousState.RightScore;
+
+            if (leftScored || rightScored)
+            {
+                bool agentLost = (rl.Side == PaddleSide.Left && rightScored)
+                              || (rl.Side == PaddleSide.Right && leftScored);
+
+                // Terminal reward: -1 to the side that missed, 0 to the winner
+                // (the winner already accumulated +1 hit rewards during the ralli).
+                double terminal = agentLost ? -1.0 : 0.0;
+                rl.EndEpisode(terminal);
+            }
+        }
+
+        private IPongAgent CreatePlayer(AgentTypes type, PaddleSide side)
+        {
+            // For RL agents, try loading a previously saved network so the
+            // weights persist across runs.
+            if (type == AgentTypes.AI_Reinforcement)
+            {
+                string path = GetWeightsPath(side);
+                if (File.Exists(path))
+                {
+                    try
+                    {
+                        NeuralNetwork loaded = NetworkPersistence.Load(path);
+                        return new AIReinforcementAgent(side, loaded);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(
+                            $"Failed to load RL weights from '{path}':\n{ex.Message}\n\n" +
+                            "Falling back to a fresh network.",
+                            "PingPongAI",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
+                    }
+                }
+            }
+
+            return AgentFactory.CreateAgent(type, side);
+        }
+
+        private void SaveRLWeights()
+        {
+            // Skip saving if training was disabled — otherwise an idle session
+            // with random initial weights would overwrite a good checkpoint.
+            if (!_vm.IsTrainingEnabled)
+                return;
+
+            TrySaveOne(_leftPlayer, PaddleSide.Left);
+            TrySaveOne(_rightPlayer, PaddleSide.Right);
+        }
+
+        private void TrySaveOne(IPongAgent? agent, PaddleSide side)
+        {
+            if (agent is AIReinforcementAgent rl)
+            {
+                try
+                {
+                    rl.SaveWeights(GetWeightsPath(side));
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(
+                        $"Failed to save RL weights ({side}): {ex.Message}");
+                }
+            }
+        }
+
+        private string GetWeightsPath(PaddleSide side)
+        {
+            string fileName = side == PaddleSide.Left ? "left.json" : "right.json";
+            return Path.Combine(_weightsDir, fileName);
+        }
+
+        // Walks up from the executable directory looking for a `weights/`
+        // folder. When running from Visual Studio's bin output, this finds
+        // the repo-level folder so trained networks land where the user can
+        // commit them. Falls back to `<exe>/weights/` otherwise.
+        private static string ResolveWeightsDir()
+        {
+            string? current = AppDomain.CurrentDomain.BaseDirectory;
+            for (int i = 0; i < 8 && current != null; i++)
+            {
+                string candidate = Path.Combine(current, "weights");
+                if (Directory.Exists(candidate))
+                    return candidate;
+                current = Directory.GetParent(current)?.FullName;
+            }
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "weights");
+        }
     }
-} 
+}
