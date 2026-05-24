@@ -5,6 +5,6 @@
         Human,
         RuleBased,
         AI_Supervised,
-        AI_RLE
+        AI_Reinforcement
     }
 }
