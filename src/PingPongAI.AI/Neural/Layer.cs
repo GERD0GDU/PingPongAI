@@ -40,6 +40,14 @@ namespace PingPongAI.AI.Neural
             }
         }
 
+        public void InitializeXavier(int fanOut)
+        {
+            foreach (var neuron in _neurons)
+            {
+                neuron.InitializeXavier(fanOut);
+            }
+        }
+
         public double[] Compute(double[] inputs)
         {
 #if DEBUG

@@ -44,8 +44,13 @@ namespace PingPongAI.AI.Agents
             _random = new Random();
             _episodeBuffer = new List<EpisodeStep>();
 
-            Gamma = 0.95;
-            LearningRate = 0.01;
+            // γ=0.99 at 60 fps gives an effective credit-assignment horizon
+            // of ~100 frames (~1.7s), enough to span a typical ralli.
+            Gamma = 0.99;
+            // Lower than supervised because EndEpisode applies one gradient
+            // step per buffered frame; 600 sequential micro-updates per
+            // ralli would diverge at 0.01.
+            LearningRate = 0.001;
             IsTrainingEnabled = true;
         }
 
@@ -133,6 +138,17 @@ namespace PingPongAI.AI.Agents
                 returns[t] = g;
             }
 
+            // Subtract the episode mean as a baseline. Without this every
+            // return in a losing ralli is negative and the gradient only
+            // says "everything I did was bad" instead of "this was worse
+            // than that". Standard variance-reduction trick for REINFORCE.
+            double mean = 0.0;
+            for (int t = 0; t < returns.Length; t++)
+                mean += returns[t];
+            mean /= returns.Length;
+            for (int t = 0; t < returns.Length; t++)
+                returns[t] -= mean;
+
             for (int t = 0; t < _episodeBuffer.Count; t++)
             {
                 EpisodeStep step = _episodeBuffer[t];
@@ -160,6 +176,9 @@ namespace PingPongAI.AI.Agents
             // Last layer must be linear so raw logits reach Softmax
             // and the policy-gradient backprop sign convention holds.
             network.AddLayer(ACTION_COUNT, new IdentityActivation());
+            // Xavier init keeps tanh hidden layers out of saturation so
+            // gradient signal can actually reach them during training.
+            network.InitializeXavier();
             return network;
         }
 

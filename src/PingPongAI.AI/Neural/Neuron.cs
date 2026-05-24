@@ -41,6 +41,29 @@ namespace PingPongAI.AI.Neural
             Bias = min + _random.NextDouble() * (max - min);
         }
 
+        // Glorot/Xavier uniform initialization:
+        //   weight ~ U(-sqrt(6 / (fanIn + fanOut)), +sqrt(6 / (fanIn + fanOut)))
+        // Keeps the per-layer pre-activation variance ~constant across depth,
+        // so tanh/sigmoid stages do not saturate at initialization and gradient
+        // signal can propagate back through the network.
+        public void InitializeXavier(int fanOut)
+        {
+#if DEBUG
+            if (fanOut <= 0)
+                throw new ArgumentOutOfRangeException(nameof(fanOut),
+                    $"'{fanOut}' must be a positive integer greater than 0.");
+#endif
+            int fanIn = Weights.Length;
+            double limit = Math.Sqrt(6.0 / (fanIn + fanOut));
+
+            for (int i = 0; i < Weights.Length; i++)
+            {
+                Weights[i] = (_random.NextDouble() * 2.0 - 1.0) * limit;
+            }
+
+            Bias = 0.0;
+        }
+
         public void LoadParameters(double[] weights, double bias)
         {
 #if DEBUG

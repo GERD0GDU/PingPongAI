@@ -57,6 +57,24 @@ namespace PingPongAI.AI.Neural
             _layers.Add(layer);
         }
 
+        // Re-initializes every layer with Glorot/Xavier weights. Each layer's
+        // fan-out is taken from the next layer's neuron count; the final
+        // layer uses its own neuron count as a sensible fallback.
+        public void InitializeXavier()
+        {
+#if DEBUG
+            if (_layers.Count == 0)
+                throw new InvalidOperationException("Network has no layers.");
+#endif
+            for (int i = 0; i < _layers.Count; i++)
+            {
+                int fanOut = (i + 1 < _layers.Count)
+                    ? _layers[i + 1].Neurons.Count
+                    : _layers[i].Neurons.Count;
+                _layers[i].InitializeXavier(fanOut);
+            }
+        }
+
         public double[] Compute(double[] inputs)
         {
 #if DEBUG
