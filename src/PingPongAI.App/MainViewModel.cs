@@ -20,7 +20,7 @@ namespace PingPongAI.App
             }
         }
 
-        private AgentTypes _leftAgentType = AgentTypes.AI;
+        private AgentTypes _leftAgentType = AgentTypes.AI_Supervised;
         public AgentTypes LeftAgentType
         {
             get => _leftAgentType;
@@ -31,7 +31,7 @@ namespace PingPongAI.App
             }
         }
 
-        private AgentTypes _rightAgentType = AgentTypes.AI;
+        private AgentTypes _rightAgentType = AgentTypes.AI_Supervised;
         public AgentTypes RightAgentType
         {
             get => _rightAgentType;

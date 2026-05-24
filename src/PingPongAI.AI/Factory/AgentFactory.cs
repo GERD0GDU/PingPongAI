@@ -14,8 +14,8 @@ namespace PingPongAI.AI.Factory
                     return new HumanAgent(side);
                 case AgentTypes.RuleBased:
                     return new RuleBasedAgent(side);
-                case AgentTypes.AI:
-                    return new AIAgent(side);
+                case AgentTypes.AI_Supervised:
+                    return new AISupervisedAgent(side);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(agentType), agentType, null);
             }

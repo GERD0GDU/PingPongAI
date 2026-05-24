@@ -6,11 +6,11 @@ using PingPongAI.Core.States;
 
 namespace PingPongAI.AI.Agents
 {
-    public sealed class AIAgent : PongAgent, IPongAgent
+    public sealed class AISupervisedAgent : PongAgent, IPongAgent
     {
         private readonly NeuralNetwork _network;
 
-        public AIAgent(PaddleSide side)
+        public AISupervisedAgent(PaddleSide side)
             : base(side)
         {
             // (n) inputs representing the current game state
@@ -21,7 +21,7 @@ namespace PingPongAI.AI.Agents
             _network.AddLayer(1, new TanhActivation());
         }
 
-        public override AgentTypes AgentType => AgentTypes.AI;
+        public override AgentTypes AgentType => AgentTypes.AI_Supervised;
 
         public override Direction Decide(GameState state)
         {

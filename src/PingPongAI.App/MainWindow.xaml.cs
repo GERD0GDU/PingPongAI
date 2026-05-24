@@ -200,10 +200,10 @@ namespace PingPongAI.App
 
         private void UpdateAI(IPongAgent agent, GameState observedState, double expected)
         {
-            if (agent.AgentType != AgentTypes.AI || !_vm.IsTrainingEnabled)
+            if (agent.AgentType != AgentTypes.AI_Supervised || !_vm.IsTrainingEnabled)
                 return;
 
-            AIAgent ai = (AIAgent)agent;
+            AISupervisedAgent ai = (AISupervisedAgent)agent;
 
             // Train on the same state the decision was made on,
             // not the post-update state.

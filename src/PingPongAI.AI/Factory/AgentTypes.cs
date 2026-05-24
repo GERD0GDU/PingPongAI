@@ -4,6 +4,7 @@
     {
         Human,
         RuleBased,
-        AI
+        AI_Supervised,
+        AI_RLE
     }
 }
