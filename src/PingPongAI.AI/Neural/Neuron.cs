@@ -41,6 +41,24 @@ namespace PingPongAI.AI.Neural
             Bias = min + _random.NextDouble() * (max - min);
         }
 
+        public void LoadParameters(double[] weights, double bias)
+        {
+#if DEBUG
+            if (weights == null)
+                throw new ArgumentNullException(nameof(weights));
+
+            if (weights.Length != Weights.Length)
+                throw new ArgumentOutOfRangeException(nameof(weights),
+                    $"Weights vector length ({weights.Length}) does not match neuron weight count ({Weights.Length}).");
+#endif
+            for (int i = 0; i < Weights.Length; i++)
+            {
+                Weights[i] = weights[i];
+            }
+
+            Bias = bias;
+        }
+
         public double Compute(double[] inputs)
         {
 #if DEBUG
