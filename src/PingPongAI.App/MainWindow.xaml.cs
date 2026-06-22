@@ -239,8 +239,11 @@ namespace PingPongAI.App
                 : currentState.RightPaddle;
 
             // Step reward: +1 every frame the paddle hit the ball.
+            // Credit the *previous* action because UpdateBall (which sets
+            // HasHitBall) runs before UpdatePaddles inside GameSimulator —
+            // the collision used paddle position from the prior tick.
             if (paddle.HasHitBall)
-                rl.RegisterReward(+1.0);
+                rl.RegisterRewardForPreviousAction(+1.0);
 
             // Ralli end: score changed between the snapshot and the current state.
             bool leftScored = currentState.LeftScore > previousState.LeftScore;

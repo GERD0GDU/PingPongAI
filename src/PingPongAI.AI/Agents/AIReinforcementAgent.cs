@@ -117,6 +117,24 @@ namespace PingPongAI.AI.Agents
             _episodeBuffer[_episodeBuffer.Count - 1].Reward += reward;
         }
 
+        // Attaches a reward to the action recorded one tick earlier rather
+        // than the most recent one. Required when the simulator's update
+        // order makes a consequence observable only on the next tick:
+        // GameSimulator.Update runs UpdateBall (collision detection, sets
+        // paddle.HasHitBall) BEFORE UpdatePaddles applies the current
+        // frame's action. So when HasHitBall is true in frame N, the
+        // collision was caused by the paddle position established by
+        // action N-1, not the action just buffered in Decide() this frame.
+        // Crediting +1 to Count-1 would attribute the only positive signal
+        // to a random unrelated action — the policy never learns.
+        public void RegisterRewardForPreviousAction(double reward)
+        {
+            if (_episodeBuffer.Count < 2)
+                return;
+
+            _episodeBuffer[_episodeBuffer.Count - 2].Reward += reward;
+        }
+
         // Closes the current ralli: attaches the terminal reward to the
         // last step, computes discounted returns backward, and runs one
         // policy-gradient pass per step.
